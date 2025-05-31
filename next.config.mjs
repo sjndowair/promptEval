@@ -5,40 +5,7 @@ const nextConfig = {
     turbo: false,
   },
   // 웹팩 설정
-  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
-    // 웹팩 설정 커스터마이징
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      '@': new URL('./', import.meta.url).pathname,
-    }
 
-    // 개발 모드에서 빠른 새로고침 활성화
-    if (dev && !isServer) {
-      config.watchOptions = {
-        poll: 1000,
-        aggregateTimeout: 300,
-      }
-    }
-
-    // 프로덕션 빌드 최적화
-    if (!dev) {
-      config.optimization = {
-        ...config.optimization,
-        splitChunks: {
-          chunks: 'all',
-          cacheGroups: {
-            vendor: {
-              test: /[\\/]node_modules[\\/]/,
-              name: 'vendors',
-              chunks: 'all',
-            },
-          },
-        },
-      }
-    }
-
-    return config
-  },
   // 이미지 최적화 설정
   images: {
     domains: ['localhost'],
