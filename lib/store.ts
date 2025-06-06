@@ -1,13 +1,48 @@
 "use client"
 
-import { create } from "zustand"
+import {create} from "zustand"
+import {persist} from "zustand/middleware"
 
-interface StoreState {
-  isEvaluating: boolean
-  setIsEvaluating: (value: boolean) => void
+
+interface IUser {
+  id: string;
+  name: string;
+  email: string;
 }
 
-export const useStore = create<StoreState>((set) => ({
-  isEvaluating: false,
-  setIsEvaluating: (value) => set({ isEvaluating: value }),
-}))
+interface IStoreState {
+  isEvaluating: boolean;
+  setIsEvaluating: (isEvaluating: boolean) => void;
+
+
+  isLoginModalOpen: boolean;
+  setIsLoginModalOpen: (value: boolean) => void;
+
+  user: IUser | null;
+  setUser: (user: IUser | null) => void;
+  logout: () => void;
+}
+
+export const useStore = create<IStoreState>()(
+  persist(
+    (set) => ({
+      isEvaluating: false,
+      setIsEvaluating: (value) => set({ isEvaluating: value }),
+
+      isLoginModalOpen: false,
+      setIsLoginModalOpen: (value) => set({ isLoginModalOpen: value }),
+
+      user: null,
+      setUser: (user) => set({ user }),
+      logout: () => set({ user: null }),
+    }),
+    {
+      name: "prompt-evaluator-storage",
+      partialize: (state) => ({ user: state.user }),
+    },
+  ),
+)
+
+
+
+
