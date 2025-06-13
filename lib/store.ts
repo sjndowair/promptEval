@@ -18,6 +18,9 @@ interface IStoreState {
   isLoginModalOpen: boolean;
   setIsLoginModalOpen: (value: boolean) => void;
 
+  isSignupModalOpen: boolean;
+  setIsSignupModalOpen: (value: boolean) => void;
+
   user: IUser | null;
   setUser: (user: IUser | null) => void;
   logout: () => void;
@@ -31,6 +34,9 @@ export const useStore = create<IStoreState>()(
 
       isLoginModalOpen: false,
       setIsLoginModalOpen: (value) => set({ isLoginModalOpen: value }),
+
+      isSignupModalOpen: false,
+      setIsSignupModalOpen: (value) => set({ isSignupModalOpen: value }),
 
       user: null,
       setUser: (user) => set({ user }),

@@ -60,7 +60,7 @@ const loginSchema = z.object({
     
     return (<Dialog open={isLoginModalOpen} onOpenChange={isCloseLoginModal}>
       
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[25rem]">
         <DialogHeader>
           <DialogTitle className="text-purple-600 dark:text-blue-400">로그인</DialogTitle>
           <DialogDescription>프롬프트 평가 서비스를 이용하려면 로그인이 필요합니다.</DialogDescription>

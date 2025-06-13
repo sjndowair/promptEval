@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { motion } from "framer-motion"
-import { Menu, X, Send, LogIn, User, LogOut } from "lucide-react"
+import { Menu, X, LogIn, User, LogOut, UserPlus } from "lucide-react"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { Button } from "@/components/ui/button"
 import  {LoginForm}  from "@/components/ui/login-form"
@@ -17,13 +17,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { set } from "zod"
+import SignupForm from "./ui/signup-form"
 
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
   const pathname = usePathname()
   const [scrolled, setScrolled] = useState(false)
-  const {isLoginModalOpen, setIsEvaluating, setIsLoginModalOpen, user, logout} = useStore()
+  const {isLoginModalOpen, setIsEvaluating, setIsLoginModalOpen, user, logout, setIsSignupModalOpen} = useStore()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -44,9 +45,10 @@ export default function Header() {
 
   const isHandleLoginClick = () => {
     setIsLoginModalOpen(true)
-    console.log(isLoginModalOpen)
-    console.log("로그인 버튼 클릭")
-    
+  }
+
+  const isHandleSignupClick = () => {
+    setIsSignupModalOpen(true)
   }
 
   return (
@@ -119,6 +121,16 @@ export default function Header() {
                     </DropdownMenuContent>
                   </DropdownMenu>
                 ) : (
+                  <>
+                  <Button
+                    variant="default"
+                    size="sm"
+                    onClick={isHandleSignupClick}
+                    className="bg-purple-600 hover:bg-purple-700 dark:bg-blue-600 dark:hover:bg-blue-700"
+                  >
+                    <UserPlus className="mr-2 h-4 w-4" />
+                    회원가입
+                  </Button>
                   <Button
                     variant="default"
                     size="sm"
@@ -128,6 +140,8 @@ export default function Header() {
                     <LogIn className="mr-2 h-4 w-4" />
                     로그인
                   </Button>
+                  
+                  </>
                 )}
               </div>
             </nav>
@@ -210,6 +224,7 @@ export default function Header() {
       </header>
 
       <LoginForm />
+      <SignupForm />
     </>
   )
 }
