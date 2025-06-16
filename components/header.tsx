@@ -122,15 +122,15 @@ export default function Header() {
                   </DropdownMenu>
                 ) : (
                   <>
-                  <Button
-                    variant="default"
-                    size="sm"
-                    onClick={isHandleSignupClick}
-                    className="bg-purple-600 hover:bg-purple-700 dark:bg-blue-600 dark:hover:bg-blue-700"
-                  >
-                    <UserPlus className="mr-2 h-4 w-4" />
-                    회원가입
-                  </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={isHandleSignupClick}
+                      className="border-purple-600 text-purple-600 hover:bg-purple-50 dark:border-blue-400 dark:text-blue-400 dark:hover:bg-blue-900/20"
+                    >
+                      <UserPlus className="mr-2 h-4 w-4" />
+                      회원가입
+                    </Button>
                   <Button
                     variant="default"
                     size="sm"

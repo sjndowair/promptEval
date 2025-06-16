@@ -1,12 +1,16 @@
 import { useState } from "react"
+import {motion} from "framer-motion"
 import { zodResolver } from "@hookform/resolvers/zod"
 import {Dialog,
      DialogClose,
      DialogContent,
+     DialogHeader,
      DialogDescription} from "@/components/ui/dialog"
      import {z} from "zod"
      import { useForm } from "react-hook-form"
      import { useStore } from "@/lib/store"
+import { DialogTitle } from "@radix-ui/react-dialog"
+import { Input } from "@/components/ui/input"
 
 
 const signupSchema = z.object({
@@ -31,6 +35,7 @@ const SignupForm = () => {
             }
         }
     )
+    
     const {setIsSignupModalOpen, isSignupModalOpen} = useStore();
     const isCloseModal = () => {
         setIsSignupModalOpen(false)
@@ -59,7 +64,29 @@ const SignupForm = () => {
     return (
         <Dialog open={isSignupModalOpen} onOpenChange={isCloseModal}>
             <DialogContent className="sm:max-w-[25rem]">
-
+                <DialogHeader>  
+                  <DialogTitle className="text-purple-800 dark:text-blue-400">회원가입</DialogTitle>
+                  <DialogDescription>프롬프트 평가 서비스에 가입하고 다양한 기능을 이용해보세요.</DialogDescription>
+                  </DialogHeader>
+                  <form className="space-y-4 py-4" onSubmit={handleSubmit(onSubmit)}>
+                    <div className="space-y-2">
+                        <label htmlFor="email">이메일</label>
+                        <Input
+                            id="email"
+                            placeholder="이메일을 입력해주세요"
+                            {...register("email")}
+                            className={errors.email ? "border-red-500" : ""}
+                        /> 
+                        {errors?.email && (
+                             <motion.p
+                             initial={{opacity: 0, y: -10 }}
+                             animate={{opacity: 1, y: 0}}
+                             className ="text-xs text-red-500"
+                             >{errors.email.message}</motion.p>
+                        )}
+                        
+                    </div>
+                  </form>
             </DialogContent>
         </Dialog>
     )

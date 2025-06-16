@@ -71,7 +71,7 @@ const loginSchema = z.object({
             <Label htmlFor="email">이메일</Label>
             <Input
               id="email"
-              placeholder="your@email.com"
+              placeholder="이메일을 입력해주세요"
               {...register("email")}
               className={errors.email ? "border-red-500" : ""}
             />
