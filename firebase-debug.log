@@ -1,0 +1,21 @@
+[debug] [2025-06-17T07:09:03.477Z] ----------------------------------------------------------------------
+[debug] [2025-06-17T07:09:03.483Z] Command:       /Users/gimjaewon/.nvm/versions/node/v20.19.0/bin/node /Users/gimjaewon/Library/pnpm/global/5/.pnpm/firebase-tools@14.7.0_@types+node@24.0.3_encoding@0.1.13/node_modules/firebase-tools/lib/bin/firebase.js init
+[debug] [2025-06-17T07:09:03.484Z] CLI Version:   14.7.0
+[debug] [2025-06-17T07:09:03.484Z] Platform:      darwin
+[debug] [2025-06-17T07:09:03.484Z] Node Version:  v20.19.0
+[debug] [2025-06-17T07:09:03.484Z] Time:          Tue Jun 17 2025 16:09:03 GMT+0900 (대한민국 표준시)
+[debug] [2025-06-17T07:09:03.484Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-06-17T07:09:03.489Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-06-17T07:09:03.489Z] > authorizing via signed-in user (jaewongim878@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  /Users/gimjaewon/Desktop/prompt-evaluator
+

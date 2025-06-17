@@ -9,6 +9,7 @@ import { ThemeToggle } from "@/components/theme-toggle"
 import { Button } from "@/components/ui/button"
 import  {LoginForm}  from "@/components/ui/login-form"
 import { useStore } from "@/lib/store"
+import { useSignOutMutation } from "@/lib/auth-queries"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,7 +25,8 @@ export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
   const pathname = usePathname()
   const [scrolled, setScrolled] = useState(false)
-  const {isLoginModalOpen, setIsEvaluating, setIsLoginModalOpen, user, logout, setIsSignupModalOpen} = useStore()
+  const {isLoginModalOpen, setIsEvaluating, setIsLoginModalOpen, user, setIsSignupModalOpen} = useStore()
+  const signOutMutation = useSignOutMutation()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -114,7 +116,7 @@ export default function Header() {
                         </div>
                       </div>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem onClick={logout}>
+                      <DropdownMenuItem onClick={() => signOutMutation.mutate()}>
                         <LogOut className="mr-2 h-4 w-4" />
                         <span>로그아웃</span>
                       </DropdownMenuItem>
@@ -166,7 +168,7 @@ export default function Header() {
                       </div>
                     </div>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={logout}>
+                    <DropdownMenuItem onClick={() => signOutMutation.mutate()}>
                       <LogOut className="mr-2 h-4 w-4" />
                       <span>로그아웃</span>
                     </DropdownMenuItem>

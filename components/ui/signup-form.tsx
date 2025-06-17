@@ -5,26 +5,36 @@ import {Dialog,
      DialogClose,
      DialogContent,
      DialogHeader,
-     DialogDescription} from "@/components/ui/dialog"
+     DialogDescription,
+     DialogFooter} from "@/components/ui/dialog"
      import {z} from "zod"
      import { useForm } from "react-hook-form"
      import { useStore } from "@/lib/store"
 import { DialogTitle } from "@radix-ui/react-dialog"
 import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import { Loader2, UserPlus } from "lucide-react"
+import { useSignUpMutation } from "@/lib/auth-queries"
+import { getFirebaseErrorMessage } from "@/lib/auth-service"
 
 
 const signupSchema = z.object({
-        name: z.string().min(2, {message: "이름은 최소 2자 이상 작성해주세요"}).max(2, {message: "이름은 최소 2자 이상으로 작성해주세요"}),
+        name: z.string().min(2, {message: "이름은 최소 2자 이상 작성해주세요"}).max(50, {message: "이름은 최대 50자 이하로 작성해주세요"}),
         email: z.string().email({message: "유효한 이메일을 작성해주세요"}),
         password: z.string().min(6, {message: "비밀번호는 최소 6자 이상 작성해주세요"}).max(20, {message: "비밀번호는 최대 20자 이하로 작성해주세요"}),
-    })
+        confirmPassword: z.string()
+}).refine((data) => data.password === data.confirmPassword, {
+    message: "비밀번호가 일치하지 않습니다.",
+    path: ["confirmPassword"]
+})
 
     type TSignupFormValues = z.infer<typeof signupSchema>
 
 const SignupForm = () => {
 
-    const [isLoading, setIsLoading] = useState<boolean>(false)
-    const [error, setError] = useState<string | null>(null)
+    const {setIsSignupModalOpen, isSignupModalOpen} = useStore()
+    const signUpMutation = useSignUpMutation()
+    
     const {register, handleSubmit, formState:{errors}, reset} = useForm(
         {
             resolver: zodResolver(signupSchema),
@@ -32,28 +42,31 @@ const SignupForm = () => {
                 name: "",
                 email: "",
                 password: "",
+                confirmPassword: ""
             }
         }
     )
     
-    const {setIsSignupModalOpen, isSignupModalOpen} = useStore();
+
     const isCloseModal = () => {
         setIsSignupModalOpen(false)
         reset()
-        setError(null)
-        setIsLoading(false)
-        
+        signUpMutation.reset() // mutation 상태 리셋
     }
 
     const onSubmit = async(data: TSignupFormValues) => {
-        try{
-            console.log("회원가입 시도:", data)
-        }catch(error){
-            setError(error instanceof Error ? error.message : "회원가입 중 에러가 발생하였습니다.")
-            throw new Error(error instanceof Error ? error.message : "회원가입 중 에러가 발생하였습니다.")
-        }finally{
-            setIsLoading(false)
-        }
+        signUpMutation.mutate({
+            email: data.email,
+            password: data.password,
+            name: data.name
+        }, {
+            onSuccess: () => {
+                reset() // 폼 리셋
+            },
+            onError: (error) => {
+                console.error('회원가입 실패:', error);
+            }
+        })
     }
 
 
@@ -62,7 +75,7 @@ const SignupForm = () => {
 
 
     return (
-        <Dialog open={isSignupModalOpen} onOpenChange={isCloseModal}>
+      <Dialog open={isSignupModalOpen} onOpenChange={isCloseModal}>
             <DialogContent className="sm:max-w-[25rem]">
                 <DialogHeader>  
                   <DialogTitle className="text-purple-800 dark:text-blue-400">회원가입</DialogTitle>
@@ -70,6 +83,24 @@ const SignupForm = () => {
                   </DialogHeader>
                   <form className="space-y-4 py-4" onSubmit={handleSubmit(onSubmit)}>
                     <div className="space-y-2">
+                        <label htmlFor="name">이름</label>
+                        <Input
+                        id="name"
+                        placeholder= "이름을 입력해주세요"
+                        {...register("name")}
+                        className={errors.name ? "border-red-500" : ""}
+                        />
+                        {errors?.name && (
+                            <motion.p
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="text-xs text-red-500"
+                            >
+                                {errors.name.message}
+                            </motion.p>
+                        )}
+                        </div>
+                        <div className="space-y-2">
                         <label htmlFor="email">이메일</label>
                         <Input
                             id="email"
@@ -84,8 +115,69 @@ const SignupForm = () => {
                              className ="text-xs text-red-500"
                              >{errors.email.message}</motion.p>
                         )}
-                        
-                    </div>
+                        </div>
+                        <div className="space-y-2">
+                            <label htmlFor="password">비밀번호</label>
+                            <Input
+                            id="password"
+                            placeholder="비밀번호를 입력해주세요"
+                            {...register("password")}
+                            type="password"
+                            className={errors?.password ? "border-red-500" : ""}
+                           />
+                                {errors?.password && (
+                                    <motion.p
+                                    initial={{opacity: 0, y: -10}}
+                                    animate={{opacity: 1, y: 0}}
+                                    className="text-xs text-red-500">
+                                        {errors?.password.message}
+                                    </motion.p>
+                                )}
+                        </div>
+                        <div className="space-y-2">
+                            <label htmlFor="confirmPassword">비밀번호 확인</label>
+                            <Input
+                            id="confirmPassword"
+                            placeholder="비밀번호를 다시 입력해주세요"
+                            {...register("confirmPassword")}
+                            type="password"
+                            className={errors?.confirmPassword ? "border-red-500" : ""}
+                           />
+                                {errors?.confirmPassword && (
+                                    <motion.p
+                                    initial={{opacity: 0, y: -10}}
+                                    animate={{opacity: 1, y: 0}}
+                                    className="text-xs text-red-500">
+                                        {errors?.confirmPassword.message}
+                                    </motion.p>
+                                )}
+                        </div>
+                    
+                    {signUpMutation.error && (
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            className="rounded-md bg-red-50 dark:bg-red-900/20 p-3"
+                        >
+                            <p className="text-sm text-red-600 dark:text-red-400">
+                                {getFirebaseErrorMessage(signUpMutation.error.message)}
+                            </p>
+                        </motion.div>
+                    )}
+                    
+                    <DialogFooter>
+                        <Button
+                        type="submit"
+                        disabled={signUpMutation.isPending}
+                        className="bg-purple-600 hover:bg-purple-700 dark:bg-blue-600 dark:hover:bg-blue-700"
+                        >{signUpMutation.isPending ? ( <span className="flex items-center gap-2">
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  가입중...
+                </span>) : ( <span className="flex items-center gap-2">
+                  <UserPlus className="h-4 w-4" />
+                  회원가입
+                </span>)}</Button>
+                    </DialogFooter>
                   </form>
             </DialogContent>
         </Dialog>

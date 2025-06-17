@@ -4,6 +4,7 @@ import { Inter } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { QueryProvider } from "@/components/query-provider"
+import AuthProvider from "@/components/auth-provider"
 import Header from "@/components/header"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -24,8 +25,10 @@ export default function RootLayout({
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange={false}>
           <QueryProvider>
-            <Header />
-            <main className="min-h-screen pt-16">{children}</main>
+            <AuthProvider>
+              <Header />
+              <main className="min-h-screen pt-16">{children}</main>
+            </AuthProvider>
           </QueryProvider>
         </ThemeProvider>
       </body>

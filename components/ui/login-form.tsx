@@ -9,8 +9,8 @@ import { Label } from "@/components/ui/label"
 import { LogIn, Loader2 } from "lucide-react"
 import { motion } from "framer-motion"
 import {useStore } from "@/lib/store"
-
-import { useState } from "react"
+import { useSignInMutation } from "@/lib/auth-queries"
+import { getFirebaseErrorMessage } from "@/lib/auth-service"
 
 const loginSchema = z.object({
         email: z.string().email({message: "유요한 이메일을 작성해주세요"}),
@@ -23,10 +23,8 @@ const loginSchema = z.object({
 
  export const LoginForm = () => {
     
-    const [isLoading, setIsLoading] = useState<boolean>(false)
-    const [error, setError] = useState<string | null>(null)
     const {isLoginModalOpen, setIsLoginModalOpen} = useStore()
-
+    const signInMutation = useSignInMutation()
 
     const {register, handleSubmit, formState:{errors}, reset} = useForm<TLoginFormValues>({
       resolver: zodResolver(loginSchema),
@@ -39,22 +37,22 @@ const loginSchema = z.object({
     const isCloseLoginModal  = () => {
         setIsLoginModalOpen(false)
         reset()
-        setError(null)
-        setIsLoading(false)
+        signInMutation.reset() // mutation 상태 리셋
     }
     
     const onSubmit = async (data: TLoginFormValues) => {
-        setIsLoading(true)
-        try{
-            console.log("로그인 시도:", data)
-        }catch(error){
-            setError(error instanceof Error ? error.message : "로그인 중 에러가 발생하였습니다.")
-            throw new Error("에러가 발생하였습니다, 관리자에게 문의 하세요.")
-        }finally{
-            setIsLoading(false)
-        }
-        
-        
+        signInMutation.mutate({
+            email: data.email,
+            password: data.password
+        }, {
+            onSuccess: () => {
+                reset() // 폼 리셋
+            },
+            onError: (error) => {
+                // 에러는 mutation에서 처리하므로 별도 처리 불필요
+                console.error('로그인 실패:', error);
+            }
+        })
     }
 
     
@@ -106,26 +104,28 @@ const loginSchema = z.object({
             )}
           </div>
 
-          {error && (
+          {signInMutation.error && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               className="rounded-md bg-red-50 dark:bg-red-900/20 p-3"
             >
-              <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+              <p className="text-sm text-red-600 dark:text-red-400">
+                {getFirebaseErrorMessage(signInMutation.error.message)}
+              </p>
             </motion.div>
           )}
 
           <DialogFooter className="pt-4">
-            <Button type="button" variant="outline" onClick={isCloseLoginModal} disabled={isLoading} className="mr-2 sm:mr-0">
+            <Button type="button" variant="outline" onClick={isCloseLoginModal} disabled={signInMutation.isPending} className="mr-2 sm:mr-0">
               취소
             </Button>
             <Button
               type="submit"
-              disabled={isLoading}
+              disabled={signInMutation.isPending}
               className="bg-purple-600 hover:bg-purple-700 dark:bg-blue-600 dark:hover:bg-blue-700"
             >
-              {isLoading ? (
+              {signInMutation.isPending ? (
                 <span className="flex items-center gap-2">
                   <Loader2 className="h-4 w-4 animate-spin" />
                   로그인 중...

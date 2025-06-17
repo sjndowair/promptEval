@@ -23,7 +23,6 @@ interface IStoreState {
 
   user: IUser | null;
   setUser: (user: IUser | null) => void;
-  logout: () => void;
 }
 
 export const useStore = create<IStoreState>()(
@@ -40,7 +39,6 @@ export const useStore = create<IStoreState>()(
 
       user: null,
       setUser: (user) => set({ user }),
-      logout: () => set({ user: null }),
     }),
     {
       name: "prompt-evaluator-storage",
