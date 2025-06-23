@@ -1,4 +1,4 @@
-import PromptEvaluator from "@/components/prompt-evaluator"
+import PromptEvaluator from "@/components/ui/prompt-evaluator"
 import { HeroSection } from "@/components/hero-section"
 
 export default function Home() {
