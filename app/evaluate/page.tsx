@@ -23,11 +23,11 @@ export default function EvaluatePage() {
           </p>
         </div>
         
-        <div className="grid lg:grid-cols-3 gap-8">
+        <div className="grid gird-cols-3 gap-8">
           <div className="lg:col-span-2">
             <PromptEvaluator selectedPrompt={selectedPrompt} />
           </div>
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-2">
             <SamplePrompts onSelectPrompt={handleSelectPrompt} />
           </div>
         </div>

@@ -112,7 +112,7 @@ export function PromptEvaluator({ selectedPrompt }: PromptEvaluatorProps) {
   const isLoading = evaluationMutation.isPending || improvementMutation.isPending || safetyMutation.isPending;
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6 p-6">
+    <div className="mx-auto space-y-6">
       {/* 프롬프트 입력 섹션 */}
       <Card>
         <CardHeader>

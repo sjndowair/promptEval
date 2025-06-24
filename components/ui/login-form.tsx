@@ -54,6 +54,13 @@ const loginSchema = z.object({
             }
         })
     }
+    
+    const isChangeSignupModalOpen = () => {
+      setIsLoginModalOpen(false);
+      setIsSignupModalOpen(true);
+      reset();
+
+    }
 
     
     return (<Dialog open={isLoginModalOpen} onOpenChange={isCloseLoginModal}>
@@ -117,7 +124,7 @@ const loginSchema = z.object({
           )}
          
           <DialogFooter className="pt-4">
-            <div onClick={()=> setIsSignupModalOpen(true)}>회원이 아니신가요?</div>
+            <Button type="button" variant="outline" onClick={isChangeSignupModalOpen}>회원이 아니신가요?</Button>
             <Button type="button" variant="outline" onClick={isCloseLoginModal} disabled={signInMutation.isPending} className="mr-2 sm:mr-0">
               취소
             </Button>
