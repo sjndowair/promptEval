@@ -80,8 +80,8 @@ export function SamplePrompts({ onSelectPrompt }: SamplePromptsProps) {
               </div>
               
               <p className="text-xs text-gray-600">{sample.description}</p>
-              
-              <div className="bg-gray-50 p-3 rounded text-xs">
+
+              <div className="bg-gray-50 dark:bg-gray-800 p-3 rounded text-xs">
                 <p className="truncate">{sample.prompt}</p>
               </div>
               

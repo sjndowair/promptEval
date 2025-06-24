@@ -7,7 +7,7 @@ import {
   type PromptEvaluationRequest,
   type PromptEvaluationResponse,
   type AIError,
-} from './ai-service-simple';
+} from './ai-service';
 
 // Query Keys
 export const AI_QUERY_KEYS = {

@@ -1,10 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
-  // 임시로 API 키가 없는 것처럼 처리하여 데모 모드 활성화
-  const hasApiKey = false; // 데모 모드를 위해 임시로 false 설정
+  const hasApiKey = !!process.env.NEXT_PUBLIC_GOOGLE_GEMINI_API_KEY && 
+    process.env.NEXT_PUBLIC_GOOGLE_GEMINI_API_KEY !== 'your_actual_gemini_api_key_here';
   
-  console.log('데모 모드 활성화:', { hasApiKey });
-  
+    console.log(request)
+  console.log('API 키 상태 확인:', {
+    hasKey: !!process.env.NEXT_PUBLIC_GOOGLE_GEMINI_API_KEY,
+    keyLength: process.env.NEXT_PUBLIC_GOOGLE_GEMINI_API_KEY?.length,
+    isDefault: process.env.NEXT_PUBLIC_GOOGLE_GEMINI_API_KEY === 'your_actual_gemini_api_key_here',
+    finalResult: hasApiKey
+  });
+
   return NextResponse.json({ hasApiKey });
 }

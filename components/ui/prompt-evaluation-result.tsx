@@ -1,8 +1,6 @@
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './card';
-import { Badge } from './badge';
 import { Progress } from './progress';
-import { Alert, AlertDescription } from './alert';
 import { CheckCircle, AlertTriangle, XCircle } from 'lucide-react';
 import type { PromptEvaluationResponse } from '@/lib/ai-service';
 
@@ -91,32 +89,32 @@ export function PromptEvaluationResult({
 
             <div>
               <div className="flex justify-between items-center mb-2">
-                <span className="text-sm font-medium">구체성</span>
-                <span className={`text-sm font-bold ${getScoreColor(evaluation.analysis.specificity)}`}>
-                  {evaluation.analysis.specificity}점
+                <span className="text-sm font-medium">관련성</span>
+                <span className={`text-sm font-bold ${getScoreColor(evaluation.analysis.relevance)}`}>
+                  {evaluation.analysis.relevance}점
                 </span>
               </div>
-              <Progress value={evaluation.analysis.specificity} className="h-2" />
+              <Progress value={evaluation.analysis.relevance} className="h-2" />
             </div>
 
             <div>
               <div className="flex justify-between items-center mb-2">
-                <span className="text-sm font-medium">완성도</span>
-                <span className={`text-sm font-bold ${getScoreColor(evaluation.analysis.completeness)}`}>
-                  {evaluation.analysis.completeness}점
+                <span className="text-sm font-medium">창의성</span>
+                <span className={`text-sm font-bold ${getScoreColor(evaluation.analysis.creativity)}`}>
+                  {evaluation.analysis.creativity}점
                 </span>
               </div>
-              <Progress value={evaluation.analysis.completeness} className="h-2" />
+              <Progress value={evaluation.analysis.creativity} className="h-2" />
             </div>
 
             <div>
               <div className="flex justify-between items-center mb-2">
-                <span className="text-sm font-medium">효과성</span>
-                <span className={`text-sm font-bold ${getScoreColor(evaluation.analysis.effectiveness)}`}>
-                  {evaluation.analysis.effectiveness}점
+                <span className="text-sm font-medium">정확성</span>
+                <span className={`text-sm font-bold ${getScoreColor(evaluation.analysis.accuracy)}`}>
+                  {evaluation.analysis.accuracy}점
                 </span>
               </div>
-              <Progress value={evaluation.analysis.effectiveness} className="h-2" />
+              <Progress value={evaluation.analysis.accuracy} className="h-2" />
             </div>
           </div>
         </CardContent>
@@ -146,64 +144,54 @@ export function PromptEvaluationResult({
         </Card>
       )}
 
-      {/* 개선된 프롬프트 */}
-      {evaluation.improvedPrompt && (
+      {/* 강점 */}
+      {evaluation.strengths && evaluation.strengths.length > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle>개선된 프롬프트</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              <CheckCircle className="h-5 w-5 text-green-600" />
+              강점
+            </CardTitle>
             <CardDescription>
-              AI가 제안하는 개선된 버전입니다.
+              이 프롬프트의 우수한 점들입니다.
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <pre className="whitespace-pre-wrap text-sm text-gray-800 font-mono">
-                {evaluation.improvedPrompt}
-              </pre>
-            </div>
+            <ul className="space-y-2">
+              {evaluation.strengths.map((strength, index) => (
+                <li key={index} className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-green-600 mt-1 flex-shrink-0" />
+                  <span className="text-sm text-gray-700">{strength}</span>
+                </li>
+              ))}
+            </ul>
           </CardContent>
         </Card>
       )}
 
-      {/* 위험 요소 */}
-      {evaluation.risks && evaluation.risks.length > 0 && (
+      {/* 개선 사항 */}
+      {evaluation.improvements && evaluation.improvements.length > 0 && (
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <AlertTriangle className="h-5 w-5 text-yellow-600" />
-              주의사항
+              개선 사항
             </CardTitle>
             <CardDescription>
-              이 프롬프트 사용 시 주의해야 할 사항들입니다.
+              더 나은 결과를 위한 개선 사항들입니다.
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-2">
-              {evaluation.risks.map((risk, index) => (
-                <Alert key={index}>
-                  <AlertTriangle className="h-4 w-4" />
-                  <AlertDescription>{risk}</AlertDescription>
-                </Alert>
+            <ul className="space-y-2">
+              {evaluation.improvements.map((improvement, index) => (
+                <li key={index} className="flex items-start gap-2">
+                  <div className="w-6 h-6 rounded-full bg-yellow-100 text-yellow-600 flex items-center justify-center text-xs font-medium mt-0.5">
+                    {index + 1}
+                  </div>
+                  <span className="text-sm text-gray-700">{improvement}</span>
+                </li>
               ))}
-            </div>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* 태그 */}
-      {evaluation.tags && evaluation.tags.length > 0 && (
-        <Card>
-          <CardHeader>
-            <CardTitle>관련 태그</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-wrap gap-2">
-              {evaluation.tags.map((tag, index) => (
-                <Badge key={index} variant="secondary">
-                  {tag}
-                </Badge>
-              ))}
-            </div>
+            </ul>
           </CardContent>
         </Card>
       )}

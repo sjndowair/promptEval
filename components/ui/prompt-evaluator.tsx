@@ -8,7 +8,6 @@ import { Label } from './label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './select';
 import { Alert, AlertDescription } from './alert';
 import { PromptEvaluationResult } from './prompt-evaluation-result';
-import { APIKeySetupGuide } from './api-key-setup-guide';
 import { DemoResults } from './demo-results';
 import { 
   usePromptEvaluation, 
@@ -58,9 +57,6 @@ export function PromptEvaluator({ selectedPrompt }: PromptEvaluatorProps) {
     );
   }
 
-  if (!hasApiKey && !showDemo) {
-    return <APIKeySetupGuide onShowDemo={() => setShowDemo(true)} />;
-  }
 
   if (!hasApiKey && showDemo) {
     return (
@@ -105,6 +101,13 @@ export function PromptEvaluator({ selectedPrompt }: PromptEvaluatorProps) {
 
     safetyMutation.mutate(prompt.trim());
   };
+
+  const handleRunAll = () => {
+    handleEvaluate();
+    handleImprove();
+    handleSafetyCheck();
+      
+  }
 
   const isLoading = evaluationMutation.isPending || improvementMutation.isPending || safetyMutation.isPending;
 
@@ -158,7 +161,7 @@ export function PromptEvaluator({ selectedPrompt }: PromptEvaluatorProps) {
 
           <div className="flex gap-2 flex-wrap">
             <Button
-              onClick={handleEvaluate}
+              onClick={handleRunAll}
               disabled={!prompt.trim() || isLoading}
               className="flex items-center gap-2"
             >
@@ -168,34 +171,6 @@ export function PromptEvaluator({ selectedPrompt }: PromptEvaluatorProps) {
                 <Send className="h-4 w-4" />
               )}
               평가하기
-            </Button>
-
-            <Button
-              variant="outline"
-              onClick={handleImprove}
-              disabled={!prompt.trim() || isLoading}
-              className="flex items-center gap-2"
-            >
-              {improvementMutation.isPending ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <Lightbulb className="h-4 w-4" />
-              )}
-              개선 제안
-            </Button>
-
-            <Button
-              variant="outline"
-              onClick={handleSafetyCheck}
-              disabled={!prompt.trim() || isLoading}
-              className="flex items-center gap-2"
-            >
-              {safetyMutation.isPending ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <Shield className="h-4 w-4" />
-              )}
-              안전성 검사
             </Button>
           </div>
 

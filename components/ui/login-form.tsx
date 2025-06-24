@@ -23,7 +23,7 @@ const loginSchema = z.object({
 
  export const LoginForm = () => {
     
-    const {isLoginModalOpen, setIsLoginModalOpen} = useStore()
+    const {isLoginModalOpen, setIsLoginModalOpen, setIsSignupModalOpen} = useStore()
     const signInMutation = useSignInMutation()
 
     const {register, handleSubmit, formState:{errors}, reset} = useForm<TLoginFormValues>({
@@ -115,8 +115,9 @@ const loginSchema = z.object({
               </p>
             </motion.div>
           )}
-
+         
           <DialogFooter className="pt-4">
+            <div onClick={()=> setIsSignupModalOpen(true)}>회원이 아니신가요?</div>
             <Button type="button" variant="outline" onClick={isCloseLoginModal} disabled={signInMutation.isPending} className="mr-2 sm:mr-0">
               취소
             </Button>
