@@ -2,8 +2,16 @@
 
 import { motion } from "framer-motion"
 import Link from "next/link"
+import { useStore } from "@/lib/store"
+
+
 
 export function HeroSection() {
+
+  const {user, setIsSignupModalOpen} = useStore()
+
+
+
   return (
     <section className="py-12 md:py-24">
       <div className="container px-4 md:px-6">
@@ -31,7 +39,7 @@ export function HeroSection() {
             transition={{ duration: 0.5, delay: 0.4 }}
             className="flex flex-wrap justify-center gap-4"
           >
-            <Link href="/evaluate">
+            {user ? ( <Link href="/evaluate">
             <motion.div
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -40,13 +48,23 @@ export function HeroSection() {
 
               시작하기
             </motion.div>
-            </Link>
+            </Link>) : (
+              <motion.div
+              onClick={() => setIsSignupModalOpen(true)}
+                whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="inline-flex h-10 items-center justify-center rounded-md bg-purple-600 px-8 text-sm font-medium text-white shadow transition-colors hover:bg-purple-700 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-purple-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus-visible:ring-blue-300"
+              >
+               시작하기 
+              </motion.div>
+            )}
+           
             <Link href="/guide">
             <motion.div
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }} 
               className="inline-flex h-10 items-center justify-center rounded-md border border-gray-200 bg-white px-8 text-sm font-medium shadow-sm transition-colors hover:bg-gray-100 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus-visible:ring-gray-300"
-            >
+            > 
               가이드 보기
             </motion.div>
             </Link>

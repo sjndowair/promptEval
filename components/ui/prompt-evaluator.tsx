@@ -42,10 +42,17 @@ export function PromptEvaluator({ selectedPrompt }: PromptEvaluatorProps) {
 
   // API 키 확인
   useEffect(() => {
-    fetch('/api/config')
-      .then(res => res.json())
-      .then(data => setHasApiKey(data.hasApiKey))
-      .catch(() => setHasApiKey(false));
+    const isCheckedApiKey = async () => {
+      try{
+          const response = await fetch(`/api/config`)
+          const data = await response.json()
+          setHasApiKey(!!data.hasApiKey)
+      }catch(error){
+        console.log("API 키 확인 중 오류 발생:", error);
+        setHasApiKey(false);
+      }
+    }
+    isCheckedApiKey()
   }, []);
 
   // 로딩 중이거나 API 키가 없으면 가이드 표시

@@ -59,6 +59,7 @@ const loginSchema = z.object({
       setIsLoginModalOpen(false);
       setIsSignupModalOpen(true);
       reset();
+      signInMutation.reset();
 
     }
 
@@ -124,8 +125,8 @@ const loginSchema = z.object({
           )}
          
           <DialogFooter className="pt-4">
-            <Button type="button" variant="outline" onClick={isChangeSignupModalOpen}>회원이 아니신가요?</Button>
-            <Button type="button" variant="outline" onClick={isCloseLoginModal} disabled={signInMutation.isPending} className="mr-2 sm:mr-0">
+            <Button className="flex-1 " type="button" variant="outline" onClick={isChangeSignupModalOpen} disabled={signInMutation.isPending}>회원가입 하러가기</Button>
+            <Button type="button" variant="outline" onClick={isCloseLoginModal} disabled={signInMutation.isPending}>
               취소
             </Button>
             <Button

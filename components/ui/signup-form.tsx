@@ -32,7 +32,7 @@ const signupSchema = z.object({
 
 const SignupForm = () => {
 
-    const {setIsSignupModalOpen, isSignupModalOpen} = useStore()
+    const {setIsSignupModalOpen, isSignupModalOpen, setIsLoginModalOpen} = useStore()
     const signUpMutation = useSignUpMutation()
     
     const {register, handleSubmit, formState:{errors}, reset} = useForm(
@@ -51,7 +51,7 @@ const SignupForm = () => {
     const isCloseModal = () => {
         setIsSignupModalOpen(false)
         reset()
-        signUpMutation.reset() // mutation 상태 리셋
+        signUpMutation.reset();
     }
 
     const onSubmit = async(data: TSignupFormValues) => {
@@ -67,6 +67,13 @@ const SignupForm = () => {
                 console.error('회원가입 실패:', error);
             }
         })
+    }
+
+    const isChangeLoginModalOpen = () => {
+        setIsSignupModalOpen(false);
+        setIsLoginModalOpen(true);
+        reset()
+        signUpMutation.reset()
     }
 
 
@@ -166,6 +173,12 @@ const SignupForm = () => {
                     )}
                     
                     <DialogFooter>
+                        <Button type="submit"
+                        disabled={signUpMutation.isPending}
+                        className="flex-1"
+                        variant="outline"
+                        onClick={isChangeLoginModalOpen}
+                        >로그인 하러가기</Button>
                         <Button
                         type="submit"
                         disabled={signUpMutation.isPending}
