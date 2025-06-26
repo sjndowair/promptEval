@@ -18,6 +18,7 @@ import {
 import { Loader2, Send, Shield, Lightbulb } from 'lucide-react';
 import type { PromptEvaluationRequest } from '@/lib/ai-service';
 
+
 interface PromptEvaluatorProps {
   selectedPrompt?: string;
 }
@@ -28,6 +29,7 @@ export function PromptEvaluator({ selectedPrompt }: PromptEvaluatorProps) {
   const [targetGoal, setTargetGoal] = useState('');
   const [hasApiKey, setHasApiKey] = useState<boolean | null>(null);
   const [showDemo, setShowDemo] = useState(false);
+
 
   // selectedPrompt가 변경되면 prompt 상태 업데이트
   useEffect(() => {
@@ -181,6 +183,7 @@ export function PromptEvaluator({ selectedPrompt }: PromptEvaluatorProps) {
             </Button>
           </div>
 
+       
           {/* 에러 메시지 */}
           {(evaluationMutation.error || improvementMutation.error || safetyMutation.error) && (
             <Alert variant="destructive">
@@ -298,7 +301,7 @@ export function PromptEvaluator({ selectedPrompt }: PromptEvaluatorProps) {
         </Card>
       )}
     </div>
-  );
-}
+  )
+};
 
 export default PromptEvaluator;

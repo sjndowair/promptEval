@@ -29,7 +29,7 @@ export const MobileNav = ({isOpen, setIsOpen = () => {}
         <ThemeToggle />
         {user ? (
               <DropdownMenu>
-                  <DropdownMenuTrigger>
+                  <DropdownMenuTrigger asChild>
                     <Button variant="ghost" size="icon" className="rounded-full h-8 w-8 bg-purple-100 dark:bg-blue-900">
                       <User className="h-4 w-4 text-purple-600 dark:text-blue-400" />
                       <span className="sr-only">사용자 메뉴</span>

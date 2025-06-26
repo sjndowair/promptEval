@@ -1,14 +1,23 @@
 "use client"
 
+import { useState } from "react"
 import { motion } from "framer-motion"
 import Link from "next/link"
 import { useStore } from "@/lib/store"
+import { FloatingAlert } from "./floating-alert"
 
 
 
 export function HeroSection() {
-
-  const {user, setIsSignupModalOpen} = useStore()
+  const [isVisble, setIsVisible] = useState<boolean>(false)
+  const {user, setIsSignupModalOpen, setIsLoginModalOpen} = useStore()
+  
+  const isHandleLoginClick = () => {
+    setIsVisible(true)
+    setTimeout(() => {
+      setIsVisible(false)
+    }, 336000)
+  }
 
 
 
@@ -39,7 +48,8 @@ export function HeroSection() {
             transition={{ duration: 0.5, delay: 0.4 }}
             className="flex flex-wrap justify-center gap-4"
           >
-            {user ? ( <Link href="/evaluate">
+            {user ? ( 
+              <Link href="/evaluate">
             <motion.div
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -50,7 +60,7 @@ export function HeroSection() {
             </motion.div>
             </Link>) : (
               <motion.div
-              onClick={() => setIsSignupModalOpen(true)}
+              onClick={isHandleLoginClick}
                 whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="inline-flex h-10 items-center justify-center rounded-md bg-purple-600 px-8 text-sm font-medium text-white shadow transition-colors hover:bg-purple-700 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-purple-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus-visible:ring-blue-300"
@@ -71,6 +81,13 @@ export function HeroSection() {
           </motion.div>
         </div>
       </div>
+      <FloatingAlert
+      isVisible={isVisble}
+      onClose={() => setIsVisible(false)}
+      onLoginClick={() => setIsLoginModalOpen(true)}
+      title="로그인이 필요합니다"
+      description="프롬프트 평가 서비스를 이용하려면 로그인이 필요합니다."
+      ></FloatingAlert>
     </section>
   )
 }
