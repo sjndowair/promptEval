@@ -4,15 +4,32 @@ import { doc, getDoc } from 'firebase/firestore';
 import { auth, db } from './firebase';
 import { useStore } from './store';
 import { useEffect } from 'react';
+import { Timestamp } from 'firebase/firestore';
 
-interface User {
+
+interface IUser {
   id: string;
   name: string;
   email: string;
 }
 
+interface IUserTokens {
+  userId?: string;
+  totalTokens?: number;
+  usedTokens?: number;
+  lastResetDate?: string;
+  createdAt?: Timestamp;
+  updatedAt?: Timestamp;
+}
+
+interface IUserWithTokens extends IUser {
+  tokens?: IUserTokens;
+}
+
+
+
 // Firebase Auth 상태를 가져오는 함수
-const getAuthState = (): Promise<User | null> => {
+const getAuthState = (): Promise<IUser | null> => {
   return new Promise((resolve) => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser: FirebaseUser | null) => {
       unsubscribe(); // 한 번만 실행되도록
@@ -69,7 +86,7 @@ export const useAuthState = () => {
   // Firebase Auth 상태 변경을 실시간으로 감지
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser: FirebaseUser | null) => {
-      let userData: User | null = null;
+      let userData: IUser | null = null;
 
       if (firebaseUser) {
         try {
