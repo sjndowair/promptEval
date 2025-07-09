@@ -7,7 +7,9 @@ import {useStore} from '@/lib/store'
 
 export default function EvaluatePage() {
   const [selectedPrompt, setSelectedPrompt] = useState('');
-  const {user} = useStore()
+  const {user, userTokens, useTokens, refreshUserTokens, setIsLoginModalOpen} = useStore()
+  
+
 
   const handleSelectPrompt = (prompt: string) => {
     setSelectedPrompt(prompt);

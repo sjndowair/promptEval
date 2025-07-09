@@ -1,6 +1,8 @@
 "use client"
 
-import { useState } from "react"
+import { useState,
+         useEffect
+ } from "react"
 import { motion } from "framer-motion"
 import Link from "next/link"
 import { useStore } from "@/lib/store"
@@ -10,14 +12,22 @@ import { FloatingAlert } from "./floating-alert"
 
 export function HeroSection() {
   const [isVisble, setIsVisible] = useState<boolean>(false)
-  const {user, setIsSignupModalOpen, setIsLoginModalOpen} = useStore()
+  const {user, setIsSignupModalOpen,  userTokens, refreshUserTokens, setIsLoginModalOpen} = useStore()
   
   const isHandleLoginClick = () => {
     setIsVisible(true)
     setTimeout(() => {
       setIsVisible(false)
-    }, 336000)
+    }, 10000)
+    
   }
+
+
+  useEffect(() => {
+     if(user && !userTokens){
+      refreshUserTokens?.()
+     }
+  },[user, userTokens, refreshUserTokens])
 
 
 

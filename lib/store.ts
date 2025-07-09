@@ -2,6 +2,7 @@
 
 import {create} from "zustand"
 import {persist} from "zustand/middleware"
+import { IUserTokens } from "@/types/tokens"
 
 
 interface IUser {
@@ -23,11 +24,19 @@ interface IStoreState {
 
   user: IUser | null;
   setUser: (user: IUser | null) => void;
+
+  userTokens?: IUserTokens | null;
+  isTokensLoading?: boolean;
+
+  setUserTokens?: (tokens: IUserTokens | null) => void
+  setIsTokensLoading?: (tokens: boolean) => void
+  refreshUserTokens?: () => Promise<void>
+  useTokens?: (amount: number) => Promise<boolean>
 }
 
 export const useStore = create<IStoreState>()(
   persist(
-    (set) => ({
+    (set,get) => ({
       isEvaluating: false,
       setIsEvaluating: (value) => set({ isEvaluating: value }),
 
@@ -38,7 +47,17 @@ export const useStore = create<IStoreState>()(
       setIsSignupModalOpen: (value) => set({ isSignupModalOpen: value }),
 
       user: null,
-      setUser: (user) => set({ user }),
+      setUser: (user) => {
+        set({ user })
+        if(user){
+          get().refreshUserTokens?.()
+        }else{
+          set({userTokens: null, isTokensLoading: false})
+        }
+      },
+
+      setUserTokens: (tokens) => set({userTokens: tokens}),
+      setIsTokensLoading: (loading) => set({isTokensLoading: loading})
     }),
     {
       name: "prompt-evaluator-storage",
