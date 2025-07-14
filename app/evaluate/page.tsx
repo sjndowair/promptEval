@@ -1,14 +1,25 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PromptEvaluator from '@/components/ui/prompt-evaluator'
 import { SamplePrompts } from '@/components/ui/sample-prompts'
 import {useStore} from '@/lib/store'
 
+
+
 export default function EvaluatePage() {
   const [selectedPrompt, setSelectedPrompt] = useState('');
-  const {user, userTokens, useTokens, refreshUserTokens, setIsLoginModalOpen} = useStore()
+  const [isEvaluating, setIsEvaluating] = useState<boolean>(false)
+  const {user,   refreshUserTokens} = useStore()
   
+
+  useEffect(() => {
+    if(user){
+      refreshUserTokens?.()
+    }
+  },[user, refreshUserTokens])
+
+ 
 
 
   const handleSelectPrompt = (prompt: string) => {
@@ -26,7 +37,7 @@ export default function EvaluatePage() {
           <p className="text-lg text-gray-600">
            로그인 후 이용가능한 컨텐츠입니다.
            <br />
-           AI를 활용하여 프롬프트의 품질을 평가하고 개2선 방안을 제안받으세요
+           AI를 활용하여 프롬프트의 품질을 평가하고 개선 방안을 제안받으세요
           </p>
         </div>
         
@@ -43,7 +54,9 @@ export default function EvaluatePage() {
   }
 
   return (
+    
     <div className="container mx-auto px-4 py-8">
+      
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-8">
           <h3 className="py-8 text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-purple-400 dark:from-blue-400 dark:to-blue-600">

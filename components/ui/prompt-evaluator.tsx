@@ -17,6 +17,8 @@ import {
 } from '@/lib/ai-queries';
 import { Loader2, Send, Shield, Lightbulb } from 'lucide-react';
 import type { PromptEvaluationRequest } from '@/lib/ai-service';
+import { useStore } from '@/lib/store';
+import { TokenDisplay } from './token-display';
 
 
 interface PromptEvaluatorProps {
@@ -30,17 +32,21 @@ export function PromptEvaluator({ selectedPrompt }: PromptEvaluatorProps) {
   const [hasApiKey, setHasApiKey] = useState<boolean | null>(null);
   const [showDemo, setShowDemo] = useState(false);
 
+  const evaluationMutation = usePromptEvaluation();
+  const improvementMutation = usePromptImprovement();
+  const safetyMutation = usePromptSafetyCheck();
 
-  // selectedPrompt가 변경되면 prompt 상태 업데이트
+  const {user, userTokens, useTokens, refreshUserTokens, setIsLoginModalOpen} = useStore()
+
+   
+
+    // selectedPrompt가 변경되면 prompt 상태 업데이트
   useEffect(() => {
     if (selectedPrompt) {
       setPrompt(selectedPrompt);
     }
   }, [selectedPrompt]);
 
-  const evaluationMutation = usePromptEvaluation();
-  const improvementMutation = usePromptImprovement();
-  const safetyMutation = usePromptSafetyCheck();
 
   // API 키 확인
   useEffect(() => {
@@ -85,43 +91,56 @@ export function PromptEvaluator({ selectedPrompt }: PromptEvaluatorProps) {
     );
   }
 
-  const handleEvaluate = () => {
+
+  const handleRunAll = async () => {
     if (!prompt.trim()) return;
+     
+    if (!user) {
+      setIsLoginModalOpen(true);
+      return;
+    }
 
-    const request: PromptEvaluationRequest = {
-      prompt: prompt.trim(),
-      evaluationType,
-    };
+    // 토큰 체크 (3개 함수를 동시에 실행하지만 5토큰만 사용)
+    if (!userTokens || userTokens.totalTokens < 5) {
+      alert("토큰이 부족합니다. 내일 다시 시도해주세요.");
+      return;
+    }
 
-    evaluationMutation.mutate(request);
-  };
+    try {
+      const tokenUsed = await useTokens(5);
+      if (!tokenUsed) {
+        alert("토큰 사용에 실패했습니다.");
+        return;
+      }
 
-  const handleImprove = () => {
-    if (!prompt.trim()) return;
-
-    improvementMutation.mutate({
-      originalPrompt: prompt.trim(),
-      targetGoal: targetGoal.trim() || undefined,
-    });
-  };
-
-  const handleSafetyCheck = () => {
-    if (!prompt.trim()) return;
-
-    safetyMutation.mutate(prompt.trim());
-  };
-
-  const handleRunAll = () => {
-    handleEvaluate();
-    handleImprove();
-    handleSafetyCheck();
+      // 3개 함수 동시 실행
+      const request: PromptEvaluationRequest = {
+        prompt: prompt.trim(),
+        evaluationType: 'comprehensive',
+      };
       
-  }
+      evaluationMutation.mutate(request);
+      improvementMutation.mutate({
+        originalPrompt: prompt.trim(),
+        targetGoal: targetGoal.trim() || undefined,
+      });
+      safetyMutation.mutate(prompt.trim());
+
+    } catch (err) {
+      console.error("종합 평가 실행 오류:", err);
+      alert("종합 평가 실행 중 오류가 발생했습니다.");
+    }
+  };
 
   const isLoading = evaluationMutation.isPending || improvementMutation.isPending || safetyMutation.isPending;
 
   return (
     <div className="mx-auto space-y-6">
+      {/* 토큰 상태 표시 */}
+      {user && (
+        <TokenDisplay />
+      )}
+      
       {/* 프롬프트 입력 섹션 */}
       <Card>
         <CardHeader>
@@ -177,9 +196,9 @@ export function PromptEvaluator({ selectedPrompt }: PromptEvaluatorProps) {
               {evaluationMutation.isPending ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
               ) : (
-                <Send className="h-4 w-4" />
+                <Send className="h-4 w-4" />  
               )}
-              평가하기
+              평가하기 (5 토큰)
             </Button>
           </div>
 

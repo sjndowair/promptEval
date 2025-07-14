@@ -1,12 +1,11 @@
 "use client"
 
-import { useState,
-         useEffect
- } from "react"
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import Link from "next/link"
 import { useStore } from "@/lib/store"
 import { FloatingAlert } from "./floating-alert"
+import { TokenDisplay } from "./ui/token-display"
 
 
 
@@ -18,10 +17,9 @@ export function HeroSection() {
     setIsVisible(true)
     setTimeout(() => {
       setIsVisible(false)
-    }, 10000)
+    }, 3000)
     
   }
-
 
   useEffect(() => {
      if(user && !userTokens){
@@ -32,7 +30,19 @@ export function HeroSection() {
 
 
   return (
-    <section className="py-12 md:py-24">
+    <section className="py-10 md:py-10">
+      
+         {user && (
+          <div className="max-w-xl mx-auto mb-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+          >
+            <TokenDisplay />
+          </motion.div>
+          </div>
+       )}
       <div className="container px-4 md:px-6">
         <div className="flex flex-col items-center space-y-4 text-center">
           <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
@@ -52,6 +62,12 @@ export function HeroSection() {
               간결성 등의 기준으로 평가하여 개선점을 제안해 드립니다.
             </p>
           </motion.div>
+
+       
+          
+          
+
+
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -91,6 +107,9 @@ export function HeroSection() {
           </motion.div>
         </div>
       </div>
+
+    
+
       <FloatingAlert
       isVisible={isVisble}
       onClose={() => setIsVisible(false)}

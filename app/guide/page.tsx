@@ -114,37 +114,6 @@ export default function GuidePage() {
   </ul>
 </section>
 
-          <section className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-            <h2 className="text-2xl font-semibold mb-4 text-purple-500 dark:text-blue-300">평가 기준</h2>
-            <p className="mb-4">프롬프트는 다음 기준에 따라 평가됩니다:</p>
-
-            <div className="space-y-3">
-              <div>
-                <h3 className="font-medium text-purple-600 dark:text-blue-400">명확성 (30%)</h3>
-                <p>프롬프트가 얼마나 명확하게 의도를 전달하는지 평가합니다.</p>
-              </div>
-
-              <div>
-                <h3 className="font-medium text-purple-600 dark:text-blue-400">구체성 (25%)</h3>
-                <p>필요한 세부 정보와 제약 조건이 얼마나 잘 포함되어 있는지 평가합니다.</p>
-              </div>
-
-              <div>
-                <h3 className="font-medium text-purple-600 dark:text-blue-400">맥락 제공 (20%)</h3>
-                <p>배경 정보와 맥락이 충분히 제공되었는지 평가합니다.</p>
-              </div>
-
-              <div>
-                <h3 className="font-medium text-purple-600 dark:text-blue-400">구조 (15%)</h3>
-                <p>프롬프트의 구조와 흐름이 논리적인지 평가합니다.</p>
-              </div>
-
-              <div>
-                <h3 className="font-medium text-purple-600 dark:text-blue-400">간결성 (10%)</h3>
-                <p>불필요한 정보 없이 간결하게 작성되었는지 평가합니다.</p>
-              </div>
-            </div>
-          </section>
         </div>
       </motion.div>
     </div>
