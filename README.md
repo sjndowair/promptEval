@@ -1,12 +1,18 @@
-# AI 프롬프트 평가 도구 (Prompt Evaluator)
+# 🤖 프롬프트 평가 서비스
 
-Next.js와 Google Gemini AI를 활용한 프롬프트 품질 평가 및 개선 도구입니다.
+AI를 활용한 프롬프트 품질 평가 및 개선 서비스입니다.
 
-## 🚀 주요 기능
+## ✨ 주요 기능
+
+### 🎯 토큰 기반 사용량 관리
+- 매일 10개 토큰 자동 충전 (00:00 리셋)
+- 평가당 5토큰 소모
+- 종합 평가 시 3개 함수 동시 실행 (5토큰 사용)
+- 실시간 토큰 상태 표시
 
 ### 🔐 사용자 인증
 - Firebase Authentication을 통한 안전한 로그인/회원가입
-- TanStack Query를 활용한 효율적인 인증 상태 관리
+- Zustand를 활용한 효율적인 상태 관리
 - 한국어 에러 메시지 지원
 
 ### 🤖 AI 프롬프트 평가
@@ -27,8 +33,13 @@ Next.js와 Google Gemini AI를 활용한 프롬프트 품질 평가 및 개선 �
 
 ## 🛠️ 기술 스택
 
-- **Frontend**: Next.js 15, React 18, TypeScript
+- **Frontend**: Next.js 15, React 19, TypeScript
 - **Styling**: Tailwind CSS, shadcn/ui
+- **State Management**: Zustand
+- **Database**: Firebase Firestore
+- **Authentication**: Firebase Auth
+- **AI Integration**: Google Gemini API
+- **Deployment**: Vercel
 - **State Management**: Zustand, TanStack Query
 - **Authentication**: Firebase Auth
 - **AI Service**: Google Gemini AI

@@ -10,6 +10,7 @@ import Header from "@/components/header"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://prompt-evaluator.vercel.app'),
   title: "프롬프트 평가 서비스",
   description: "사용자의 프롬프트를 평가해주는 서비스입니다.",
   generator: 'v0.dev',
@@ -19,11 +20,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: "프롬프트 평가 서비스",
     description: "AI를 활용한 프롬프트 품질 평가 및 개선 서비스입니다.",
-    url: "https://your-domain.com", // 실제 도메인으로 변경하세요
+    url: "https://prompt-evaluator.vercel.app", // Vercel 배포 후 실제 URL로 변경
     siteName: "프롬프트 평가 서비스",
     images: [
       {
-        url: "/meta.png", // 이미지 파일을 public 폴더에 넣어주세요
+        url: "/meta.png",
         width: 1200,
         height: 630,
         alt: "프롬프트 평가 서비스 - AI로 프롬프트를 분석하고 개선하세요",
@@ -31,7 +32,13 @@ export const metadata: Metadata = {
     ],
     locale: "ko_KR",
     type: "website",
-  }
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "프롬프트 평가 서비스",
+    description: "AI를 활용한 프롬프트 품질 평가 및 개선 서비스입니다.",
+    images: ["/meta.png"],
+  },
 }
 
 export default function RootLayout({
