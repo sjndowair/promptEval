@@ -58,34 +58,27 @@ cd prompt-evaluator
 pnpm install
 \`\`\`
 
-### 3. 환경 변수 설정
-\`.env.local\` 파일을 생성하고 다음 내용을 추가하세요:
+### 3. 환경 변수 설정 (선택사항)
+
+**🎉 Firebase 설정이 이미 완료되어 있어 추가 설정 없이 바로 사용 가능합니다!**
+
+로컬에서 AI 평가 기능을 테스트하려면 \`.env.local\` 파일을 생성하고 다음 내용을 추가하세요:
 
 \`\`\`bash
-# Firebase 설정
-NEXT_PUBLIC_FIREBASE_API_KEY=your_firebase_api_key
-NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_firebase_auth_domain
-NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_firebase_project_id
-NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_firebase_storage_bucket
-NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_firebase_messaging_sender_id
-NEXT_PUBLIC_FIREBASE_APP_ID=your_firebase_app_id
-NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=your_firebase_measurement_id
-
-# Google Gemini AI API 키
-GOOGLE_GEMINI_API_KEY=your_gemini_api_key
+# Google Gemini AI API 키 (로컬 테스트용)
+GEMINI_API_KEY=your_gemini_api_key
 \`\`\`
+
+> **참고**: Firebase 설정은 이미 프로젝트에 구성되어 있습니다. Gemini API 키만 있으면 모든 기능을 사용할 수 있습니다.
 
 ### 4. API 키 설정 방법
 
-#### Firebase 설정
-1. [Firebase Console](https://console.firebase.google.com/)에서 새 프로젝트 생성
-2. Authentication > Sign-in method에서 이메일/비밀번호 활성화
-3. 프로젝트 설정에서 웹 앱 구성 정보 복사
-
-#### Google Gemini AI API 키
+#### Google Gemini AI API 키 (로컬 개발용)
 1. [Google AI Studio](https://aistudio.google.com/app/apikey) 방문
 2. "Create API Key" 버튼 클릭
-3. 생성된 API 키를 환경 변수에 추가
+3. 생성된 API 키를 \`.env.local\` 파일에 추가
+
+> **💡 팁**: 프로덕션 환경에서는 Vercel 환경변수에 설정되어 있어 별도 설정이 필요하지 않습니다.
 
 ### 5. 개발 서버 실행
 \`\`\`bash
