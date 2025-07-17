@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "프롬프트 평가 서비스",
     description: "AI를 활용한 프롬프트 품질 평가 및 개선 서비스입니다.",
-    url: "https://prompt-evaluator.vercel.app", // Vercel 배포 후 실제 URL로 변경
+    url: "https://prompt-eval-pied.vercel.app", 
     siteName: "프롬프트 평가 서비스",
     images: [
       {
@@ -37,7 +37,10 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "프롬프트 평가 서비스",
     description: "AI를 활용한 프롬프트 품질 평가 및 개선 서비스입니다.",
-    images: ["/meta.png"],
+    images: [{
+      url: "meta.png",
+      alt: "프롬프트 평가 서비스 - AI로 프롬프트를 분석하고 개선하세요",
+    }],
   },
 }
 
