@@ -78,7 +78,7 @@ export const signIn = async (email: string, password: string) => {
     
     // Firestore에서 사용자 정보 가져오기
     const userData = await getUserData(user.uid);
-    
+
     
     if (userData) {
       return { user: userData, error: null };

@@ -9,7 +9,6 @@ import {useStore} from '@/lib/store'
 
 export default function EvaluatePage() {
   const [selectedPrompt, setSelectedPrompt] = useState('');
-  const [isEvaluating, setIsEvaluating] = useState<boolean>(false)
   const {user,   refreshUserTokens} = useStore()
   
 
