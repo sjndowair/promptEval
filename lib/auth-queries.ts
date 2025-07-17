@@ -3,12 +3,12 @@ import { signIn, signUp, signOut, getUserData } from './auth-service';
 import { useStore } from './store';
 import { toast } from 'sonner';
 
-interface SignInData {
+interface ISignInData {
   email: string;
   password: string;
 }
 
-interface SignUpData {
+interface ISignUpData {
   email: string;
   password: string;
   name: string;
@@ -20,7 +20,7 @@ export const useSignInMutation = () => {
   const { setUser, setIsLoginModalOpen } = useStore();
 
   return useMutation({
-    mutationFn: async ({ email, password }: SignInData) => {
+    mutationFn: async ({ email, password }: ISignInData) => {
       const result = await signIn(email, password);
       if (result.error) {
         throw new Error(result.error);
@@ -51,7 +51,7 @@ export const useSignUpMutation = () => {
   const { setUser, setIsSignupModalOpen } = useStore();
 
   return useMutation({
-    mutationFn: async ({ email, password, name }: SignUpData) => {
+    mutationFn: async ({ email, password, name }: ISignUpData) => {
       const result = await signUp(email, password, name);
       if (result.error) {
         throw new Error(result.error);

@@ -30,7 +30,7 @@ export function HeroSection() {
 
 
   return (
-    <section className="py-10 md:py-10">
+    <section className="py-[4rem]">
       
          {user && (
           <div className="max-w-xl mx-auto mb-8">
@@ -62,11 +62,6 @@ export function HeroSection() {
               간결성 등의 기준으로 평가하여 개선점을 제안해 드립니다.
             </p>
           </motion.div>
-
-       
-          
-          
-
 
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
