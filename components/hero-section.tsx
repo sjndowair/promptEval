@@ -11,7 +11,7 @@ import { TokenDisplay } from "./ui/token-display"
 
 export function HeroSection() {
   const [isVisble, setIsVisible] = useState<boolean>(false)
-  const {user, setIsSignupModalOpen,  userTokens, refreshUserTokens, setIsLoginModalOpen} = useStore()
+  const {user,  userTokens, refreshUserTokens, setIsLoginModalOpen} = useStore()
   
   const isHandleLoginClick = () => {
     setIsVisible(true)
@@ -20,7 +20,7 @@ export function HeroSection() {
     }, 3000)
     
   }
-
+console.log(isVisble)
   useEffect(() => {
      if(user && !userTokens){
       refreshUserTokens?.()
@@ -30,7 +30,7 @@ export function HeroSection() {
 
 
   return (
-    <section className="py-[4rem]">
+    <section className={`${user ? `py-[4rem]` : 'py-[10rem]'} `}>
       
          {user && (
           <div className="max-w-xl mx-auto mb-8">

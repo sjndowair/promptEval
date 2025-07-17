@@ -15,10 +15,12 @@ import {
   usePromptSafetyCheck,
   getAIErrorMessage 
 } from '@/lib/ai-queries';
-import { Loader2, Send, Shield, Lightbulb } from 'lucide-react';
+import { Loader2, Send, Shield, Lightbulb, AlertTriangle, XCircle } from 'lucide-react';
 import type { PromptEvaluationRequest } from '@/lib/ai-service';
 import { useStore } from '@/lib/store';
 import { TokenDisplay } from './token-display';
+import { TokenErrorModal } from './token-error-modal';
+import dynamic from 'next/dynamic';
 
 
 interface PromptEvaluatorProps {
@@ -31,6 +33,7 @@ export function PromptEvaluator({ selectedPrompt }: PromptEvaluatorProps) {
   const [targetGoal, setTargetGoal] = useState('');
   const [hasApiKey, setHasApiKey] = useState<boolean | null>(null);
   const [showDemo, setShowDemo] = useState(false);
+  const [tokenError, setTokenError] = useState<string | null>(null);
 
   const evaluationMutation = usePromptEvaluation();
   const improvementMutation = usePromptImprovement();
@@ -102,14 +105,20 @@ export function PromptEvaluator({ selectedPrompt }: PromptEvaluatorProps) {
 
     // 토큰 체크 (3개 함수를 동시에 실행하지만 5토큰만 사용)
     if (!userTokens || userTokens.totalTokens < 5) {
-      alert("토큰이 부족합니다. 내일 다시 시도해주세요.");
+     setTokenError("토큰이 부족합니다. 5개의 토큰이 필요합니다.");
+     setTimeout(() => {
+      setTokenError("")
+     },132000)
       return;
     }
 
     try {
       const tokenUsed = await useTokens(5);
       if (!tokenUsed) {
-        alert("토큰 사용에 실패했습니다.");
+        setTokenError("토큰 사용에 실패했습니다. 내일 다시 시도해주세요.");
+        setTimeout(() => {
+          setTokenError("")
+        }, 3000);
         return;
       }
 
@@ -136,11 +145,18 @@ export function PromptEvaluator({ selectedPrompt }: PromptEvaluatorProps) {
 
   return (
     <div className="mx-auto space-y-6">
+      <TokenErrorModal
+      isOpen={!!tokenError}
+      onClose={() => setTokenError(null)}
+      tokenError={tokenError}
+      userTokens={userTokens}
+       />
       {/* 토큰 상태 표시 */}
       {user && (
         <TokenDisplay />
       )}
-      
+
+
       {/* 프롬프트 입력 섹션 */}
       <Card>
         <CardHeader>
@@ -175,7 +191,7 @@ export function PromptEvaluator({ selectedPrompt }: PromptEvaluatorProps) {
               </SelectContent>
             </Select>
           </div>
-
+ 
           <div>
             <Label htmlFor="target-goal">목표 (선택사항)</Label>
             <Textarea
