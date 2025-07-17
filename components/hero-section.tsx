@@ -20,7 +20,7 @@ export function HeroSection() {
     }, 3000)
     
   }
-console.log(isVisble)
+
   useEffect(() => {
      if(user && !userTokens){
       refreshUserTokens?.()
