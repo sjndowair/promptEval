@@ -10,7 +10,7 @@ import Header from "@/components/header"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://prompt-evaluator.vercel.app'),
+  metadataBase: new URL('https://prompt-eval-pied.vercel.app'),
   title: "프롬프트 평가 서비스",
   description: "사용자의 프롬프트를 평가해주는 서비스입니다.",
   generator: 'v0.dev',
