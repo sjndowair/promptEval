@@ -59,7 +59,7 @@ export function SamplePrompts({ onSelectPrompt }: SamplePromptsProps) {
   };
 
   return (
-    <Card className="w-full">
+    <Card className="w-full max-w-full overflow-hidden">
       <CardHeader>
         <CardTitle>샘플 프롬프트</CardTitle>
         <CardDescription>
@@ -68,7 +68,7 @@ export function SamplePrompts({ onSelectPrompt }: SamplePromptsProps) {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="grid gap-4 md:grid-cols-2">
+            <div className="grid gap-4 sm:gap-6 grid-cols-1 lg:grid-cols-2">
           {samplePrompts.map((sample, index) => (
             <div key={index} className="border rounded-lg p-4 space-y-3">
               <div className="flex items-center justify-between">
