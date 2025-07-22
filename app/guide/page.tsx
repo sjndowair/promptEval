@@ -22,7 +22,7 @@ export default function GuidePage() {
               <li>프롬프트가 너무 길거나 중복된 표현 없이, 한눈에 이해될 수 있도록 간결하면서도 분명해야 합니다.</li>
               <li>AI가 핵심 의도를 빠르게 파악할 수 있어야 불필요한 오답을 줄일 수 있습니다.</li>
               <li className="list-none pt-[1rem]"><span className="font-bold text-purple-500 dark:text-blue-300 text-xl">좋은 프롬프트 예시</span>
-               {/* <button className="bg-red-700 w-[5rem] h-[2rem]" onClick={() =>analytics.event("test_event", "button_click", "이벤트 발생용 버튼 클릭")}>이벤트 발생용</button> */}
+               
               <br />
               <br />
               <span>“2025년 대한민국의 청년 실업률 추이를 2015년부터 그래프로 그려주세요. <br />X축은 연도, Y축은 실업률(%)로 표시해주세요.”</span></li>
