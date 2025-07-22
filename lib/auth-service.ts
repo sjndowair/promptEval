@@ -7,6 +7,7 @@ import {
 } from 'firebase/auth';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { auth, db } from './firebase';
+import {analytics} from './analytics';
 
 
 interface UserData {
@@ -61,6 +62,8 @@ export const signUp = async (email: string, password: string, name: string) => {
       name: name,
       email: email
     };
+
+   analytics.user.signUp()
 
     return { user: userData, error: null };
   } catch (error: any) {

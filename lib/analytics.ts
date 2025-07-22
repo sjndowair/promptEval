@@ -8,7 +8,7 @@ declare global {
         dataLayer: any[];
     }
 }
-export const analysis = {
+export const analytics = {
     pageView: (pagePath: string) => {
        if(typeof window !== "undefined" && window.gtag){
         window.gtag("config", process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID, {
@@ -23,7 +23,7 @@ export const analysis = {
 event: (action: string, category: string ="engagement", label?: string, value?: number) => {
      if(typeof window !== "undefined" && window?.gtag){
          window.gtag("event", action, {
-            event_category: action,
+            event_category: category,
             event_label: label,
             value: value
          })
@@ -31,26 +31,23 @@ event: (action: string, category: string ="engagement", label?: string, value?: 
 },
 
 user: {
-    signUp: () => analysis.event("signUp", "user_action", "email_registration"),
-    signIn: () => analysis.event("signIn", "user_action", "email_login"),
-    signOut: () => analysis.event("signOut", "user_action")
+    signUp: () => analytics.event("signUp", "user_action", "email_registration"),
+    signIn: () => analytics.event("signIn", "user_action", "email_login"),
+    signOut: () => analytics.event("signOut", "user_action")
 },
 
 prompt: {
-    submit: (length: number) => analysis.event("prompt_submit", "core_feature", "prompt_evaluation", length),
-    evaluate: () => analysis.event("prompt_evaluate", "core_feature", "ai_amalysis"),
-    viewResults: () => analysis.event("view_results", "core_feature", "analysis_complete")
+    submit: (length: number) => analytics.event("prompt_submit", "core_feature", "prompt_evaluation", length),
+    evaluate: () => analytics.event("prompt_evaluate", "core_feature", "ai_amalysis"),
+    viewResults: () => analytics.event("view_results", "core_feature", "analysis_complete")
 },
 
 engagement: {
-    buttonClick: (buttonName: string) => analysis.event("button_click", "engagement", buttonName),
-    scroll: (depth: number) => analysis.event("scroll", "enagagement", "scroll_depth", depth),
-    timeSpent: (seconds: number) => analysis.event("timing_complete", "engagement", "time_on_page", seconds)
-,
-
+    buttonClick: (buttonName: string) => analytics.event("button_click", "engagement", buttonName),
+    scroll: (depth: number) => analytics.event("scroll", "engagement", "scroll_depth", depth),
+    timeSpent: (seconds: number) => analytics.event("timing_complete", "engagement", "time_on_page", seconds)
+},
 error: (errorType: string, message: string) => {
-    analysis.event("exception", "error", `${errorType}: ${message}`)
+    analytics.event("exception", "error", `${errorType}: ${message}`)
 }
-
-
-}}
+}

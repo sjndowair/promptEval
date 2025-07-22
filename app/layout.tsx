@@ -4,13 +4,16 @@ import { Inter } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { QueryProvider } from "@/components/query-provider"
+import { AnalyticsProvider } from "@/components/analytics-provider"
 import AuthProvider from "@/components/auth-provider"
 import Header from "@/components/header"
+
 import Script from "next/script"
 
 const inter = Inter({ subsets: ["latin"] })
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
+console.log(GA_MEASUREMENT_ID)
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://prompt-eval-pied.vercel.app'),
@@ -76,8 +79,11 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange={false}>
           <QueryProvider>
             <AuthProvider>
-              <Header />
-              <main className="min-h-screen pt-16">{children}</main>
+              <AnalyticsProvider>
+                <Header />
+                
+                <main className="min-h-screen pt-16">{children}</main>
+              </AnalyticsProvider>
             </AuthProvider>
           </QueryProvider>
         </ThemeProvider>

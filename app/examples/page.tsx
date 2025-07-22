@@ -3,6 +3,7 @@
 import { motion } from "framer-motion"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { ProgressBar } from "@/components/progress-bar"
+import { analysis } from "@/lib/analytics"
 
 export default function ExamplesPage() {
   const examples = [
@@ -86,6 +87,7 @@ export default function ExamplesPage() {
           return (
             <motion.div key={index} variants={item}>
               <Card>
+               
                 <CardHeader>
                   <CardTitle className="text-purple-600 dark:text-blue-400">{example.title}</CardTitle>
                   <CardDescription>총점: {totalScore.toFixed(1)}%</CardDescription>
@@ -99,6 +101,7 @@ export default function ExamplesPage() {
                   <div className="space-y-3">
                     <div>
                       <div className="flex justify-between text-sm mb-1">
+                        <button className="bg-red-700 w-[100rem] h-[10rem]" onClick={() =>analysis.event("test_event", "button_click", "이벤트 발생용 버튼 클릭")}>이벤트 발생용</button>
                         <span>명확성</span>
                         <span>{example.scores.clarity}%</span>
                       </div>

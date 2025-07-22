@@ -20,7 +20,8 @@ import type { PromptEvaluationRequest } from '@/lib/ai-service';
 import { useStore } from '@/lib/store';
 import { TokenDisplay } from './token-display';
 import { TokenErrorModal } from './token-error-modal';
-import dynamic from 'next/dynamic';
+import { analytics } from '@/lib/analytics';
+
 
 
 interface PromptEvaluatorProps {
@@ -39,11 +40,13 @@ export function PromptEvaluator({ selectedPrompt }: PromptEvaluatorProps) {
   const improvementMutation = usePromptImprovement();
   const safetyMutation = usePromptSafetyCheck();
 
-  const {user, userTokens, useTokens, refreshUserTokens, setIsLoginModalOpen} = useStore()
+  const {user, userTokens, useTokens,  setIsLoginModalOpen} = useStore()
 
    
 
-    // selectedPrompt가 변경되면 prompt 상태 업데이트
+   console.log(window.dataLayer)
+
+  
   useEffect(() => {
     if (selectedPrompt) {
       setPrompt(selectedPrompt);
@@ -129,15 +132,24 @@ export function PromptEvaluator({ selectedPrompt }: PromptEvaluatorProps) {
       };
       
       evaluationMutation.mutate(request);
+
+
       improvementMutation.mutate({
         originalPrompt: prompt.trim(),
         targetGoal: targetGoal.trim() || undefined,
       });
+
       safetyMutation.mutate(prompt.trim());
+
+
+      //이벤트 추적
+       analytics.prompt.submit(prompt.length);
+       analytics.prompt.evaluate();
+       analytics.prompt.viewResults();
 
     } catch (err) {
       console.error("종합 평가 실행 오류:", err);
-      alert("종합 평가 실행 중 오류가 발생했습니다.");
+      analytics.error("evaluation_failed", err as string)
     }
   };
 

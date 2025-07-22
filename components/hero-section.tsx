@@ -62,7 +62,8 @@ export function HeroSection() {
               간결성 등의 기준으로 평가하여 개선점을 제안해 드립니다.
             </p>
           </motion.div>
-
+          <br />
+          
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
