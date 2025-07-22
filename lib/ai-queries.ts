@@ -23,13 +23,14 @@ export function usePromptEvaluation() {
 
   return useMutation<PromptEvaluationResponse, AIError, PromptEvaluationRequest>({
     mutationFn: evaluatePrompt,
-    onSuccess: (data, variables) => {
+      onSuccess: (data, variables) => {
       // 성공 시 캐시에 저장
       queryClient.setQueryData(
         [...AI_QUERY_KEYS.evaluation, variables.prompt],
         data
       );
     },
+    
     onError: (error) => {
       console.error('프롬프트 평가 실패:', error);
     },

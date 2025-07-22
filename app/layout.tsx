@@ -6,8 +6,11 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { QueryProvider } from "@/components/query-provider"
 import AuthProvider from "@/components/auth-provider"
 import Header from "@/components/header"
+import Script from "next/script"
 
 const inter = Inter({ subsets: ["latin"] })
+
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://prompt-eval-pied.vercel.app'),
@@ -51,6 +54,24 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko" suppressHydrationWarning>
+      <head>
+        {GA_MEASUREMENT_ID && (
+          <>
+          <Script
+           src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+           strategy="afterInteractive"
+          />
+          <Script id="google-analytics" strategy="afterInteractive" >
+            {`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', '${GA_MEASUREMENT_ID}');
+            `}
+          </Script>
+          </>
+        )}
+      </head>
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange={false}>
           <QueryProvider>
