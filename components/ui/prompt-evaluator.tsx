@@ -162,6 +162,7 @@ export function PromptEvaluator({ selectedPrompt }: PromptEvaluatorProps) {
       onClose={() => setTokenError(null)}
       tokenError={tokenError}
       userTokens={userTokens}
+      variant="error"
        />
       {/* 토큰 상태 표시 */}
       {user && (
