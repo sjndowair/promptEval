@@ -10,6 +10,7 @@ import {
 } from "./card";
 import { Button } from "./button";
 import { Copy } from "lucide-react";
+import { TokenErrorModal } from "./token-error-modal";
 
 interface SamplePrompt {
   title: string;
@@ -68,6 +69,7 @@ export function SamplePrompts({ onSelectPrompt }: SamplePromptsProps) {
         </CardDescription>
       </CardHeader>
       <CardContent>
+      
             <div className="grid gap-4 sm:gap-6 grid-cols-1 lg:grid-cols-2">
           {samplePrompts.map((sample, index) => (
             <div key={index} className="border rounded-lg p-4 space-y-3">

@@ -8,7 +8,7 @@ import { Label } from './label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './select';
 import { Alert, AlertDescription } from './alert';
 import { PromptEvaluationResult } from './prompt-evaluation-result';
-import { DemoResults } from './demo-results';
+
 import { 
   usePromptEvaluation, 
   usePromptImprovement,
@@ -92,7 +92,7 @@ export function PromptEvaluator({ selectedPrompt }: PromptEvaluatorProps) {
             설정으로 돌아가기
           </Button>
         </div>
-        <DemoResults />
+        
       </div>
     );
   }
@@ -111,7 +111,7 @@ export function PromptEvaluator({ selectedPrompt }: PromptEvaluatorProps) {
      setTokenError("토큰이 부족합니다. 5개의 토큰이 필요합니다.");
      setTimeout(() => {
       setTokenError("")
-     },132000)
+     },12000)
       return;
     }
 

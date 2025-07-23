@@ -5,11 +5,11 @@ import { ThemeProvider as NextThemesProvider } from "next-themes"
 
 interface ThemeProviderProps {
   children: React.ReactNode
-  attribute?: any  // 유연한 타입
+  attribute?: any  
   defaultTheme?: string
   enableSystem?: boolean
   disableTransitionOnChange?: boolean
-  [key: string]: any  // 추가 props 허용
+  [key: string]: any  
 }
 
 export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
