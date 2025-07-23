@@ -1,7 +1,7 @@
 "use client"
 
 import {motion, AnimatePresence} from "framer-motion"
-import {AlertTriangle, XCircle} from "lucide-react"
+import {AlertTriangle, XCircle, Import} from "lucide-react"
 import {Button} from "@/components/ui/button"
 
 interface ITokenErrorModalProps{
@@ -51,7 +51,8 @@ return(
                   animate={{ rotate: [0, -15, 15, -10, 10, -5, 5, 0] }}
                   transition={{ duration: 0.8, ease: "easeInOut", delay: 0.1 }}
                 >
-                  <AlertTriangle className="h-6 w-6 text-purple-500 dark:text-blue-700" />
+                  {variant === "error" && (<AlertTriangle className="h-6 w-6 text-purple-500 dark:text-blue-700" />)}
+                  {variant === "copy" && (<Import className="h-6 w-6 text-purple-500 dark:text-blue-700" />)}
                 </motion.div>
                {variant === "error" && (
                   <div>

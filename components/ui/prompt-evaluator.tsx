@@ -42,9 +42,6 @@ export function PromptEvaluator({ selectedPrompt }: PromptEvaluatorProps) {
 
   const {user, userTokens, useTokens,  setIsLoginModalOpen} = useStore()
 
-   
-
-   console.log(window.dataLayer)
 
   
   useEffect(() => {

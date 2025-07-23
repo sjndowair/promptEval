@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useState } from "react";
 import {
   Card,
   CardContent,
@@ -55,9 +56,24 @@ interface SamplePromptsProps {
 }
 
 export function SamplePrompts({ onSelectPrompt }: SamplePromptsProps) {
+  const [message, setMessage] = useState<string | null>(null)
+  const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
+
+
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
+    setIsOpenModal(true)
+    setMessage("프롬프트가 클립보드에 복사되었습니다.");
+    setTimeout(() => {
+      setMessage(null);
+      setIsOpenModal(false)
+    }, 3000)
   };
+
+
+
+
+  
 
   return (
     <Card className="w-full max-w-full overflow-hidden">
@@ -69,7 +85,12 @@ export function SamplePrompts({ onSelectPrompt }: SamplePromptsProps) {
         </CardDescription>
       </CardHeader>
       <CardContent>
-      
+      <TokenErrorModal
+      isOpen={isOpenModal}
+      tokenError={message}
+      onClose={() => setIsOpenModal(false)}
+      variant="copy"
+       />
             <div className="grid gap-4 sm:gap-6 grid-cols-1 lg:grid-cols-2">
           {samplePrompts.map((sample, index) => (
             <div key={index} className="border rounded-lg p-4 space-y-3">
