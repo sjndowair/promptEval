@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useState } from "react";
 import {
   Card,
   CardContent,
@@ -10,15 +11,16 @@ import {
 } from "./card";
 import { Button } from "./button";
 import { Copy } from "lucide-react";
+import { CopyTooltop } from "./copy-tooltip";
 
-interface SamplePrompt {
+interface ISamplePrompt {
   title: string;
   prompt: string;
   category: string;
   description: string;
 }
 
-const samplePrompts: SamplePrompt[] = [
+const samplePrompts: ISamplePrompt[] = [
   {
     title: "창의적 글쓰기",
     category: "Creative",
@@ -51,12 +53,29 @@ const samplePrompts: SamplePrompt[] = [
 
 interface SamplePromptsProps {
   onSelectPrompt: (prompt: string) => void;
+
 }
 
 export function SamplePrompts({ onSelectPrompt }: SamplePromptsProps) {
+  const [message, setMessage] = useState<string | null>(null)
+  const [isOpenTooltip, setIsOpenTooltip]  = useState<boolean>(false)
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
+
+
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
+    setIsOpenTooltip(true);
+    setMessage("프롬프트가 클립보드에 복사되었습니다.");
+    setTimeout(() => {
+      setMessage(null);
+      setIsOpenTooltip(false);
+    }, 1500)
   };
+
+
+
+
+  
 
   return (
     <Card className="w-full max-w-full overflow-hidden">
@@ -82,7 +101,9 @@ export function SamplePrompts({ onSelectPrompt }: SamplePromptsProps) {
                   <Button
                     variant="ghost"
                     size="sm"
-                    onClick={() => copyToClipboard(sample.prompt)}
+                    onClick={() => {
+                      copyToClipboard(sample.prompt);
+                    }}
                     className="h-8 w-8 p-0"
                   >
                     <Copy className="w-3 h-3" />
@@ -99,15 +120,22 @@ export function SamplePrompts({ onSelectPrompt }: SamplePromptsProps) {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => onSelectPrompt(sample.prompt)}
+                onClick={() =>{
+                   onSelectPrompt(sample.prompt)
+                   setSelectedIndex(index)
+                   setTimeout(() => {
+                    setSelectedIndex(null)
+                   }, 2000)
+                }}
                 className="w-full"
               >
-                이 프롬프트 사용하기
+                {selectedIndex === index ? "프롬프트가 선택되었습니다." : "이 프롬프트 사용하기"}
               </Button>
             </div>
           ))}
         </div>
       </CardContent>
+      <CopyTooltop isOpen={isOpenTooltip} />
     </Card>
   );
 }

@@ -1,17 +1,18 @@
 "use client"
 
 import {motion, AnimatePresence} from "framer-motion"
-import {AlertTriangle, XCircle} from "lucide-react"
+import {AlertTriangle, XCircle, Import} from "lucide-react"
 import {Button} from "@/components/ui/button"
 
 interface ITokenErrorModalProps{
-    isOpen: boolean
-    onClose: () => void;
-    tokenError: string | null;
+    isOpen?: boolean
+    onClose?: () => void;
+    tokenError?: string | null;
     userTokens?: {totalTokens:number} | null;
+    variant?: "error" | "copy"
 }
 
-export const TokenErrorModal = ({isOpen, onClose, tokenError, userTokens}: ITokenErrorModalProps) => {
+export const TokenErrorModal = ({isOpen, onClose, tokenError, userTokens, variant}: ITokenErrorModalProps) => {
 if(!isOpen) return null;
 
 return(
@@ -50,9 +51,11 @@ return(
                   animate={{ rotate: [0, -15, 15, -10, 10, -5, 5, 0] }}
                   transition={{ duration: 0.8, ease: "easeInOut", delay: 0.1 }}
                 >
-                  <AlertTriangle className="h-6 w-6 text-purple-500 dark:text-blue-700" />
+                  {variant === "error" && (<AlertTriangle className="h-6 w-6 text-purple-500 dark:text-blue-700" />)}
+                  {variant === "copy" && (<Import className="h-6 w-6 text-purple-500 dark:text-blue-700" />)}
                 </motion.div>
-                <div>
+               {variant === "error" && (
+                  <div>
                   <motion.div 
                     className="font-bold text-xl text-purple-500 dark:text-blue-500"
                     initial={{ opacity: 0 }}
@@ -80,6 +83,27 @@ return(
                     </motion.div>
                   )}
                 </div>
+               )}
+               {variant === "copy" && (
+                  <div>
+                  <motion.div 
+                    className="font-bold text-xl text-purple-500 dark:text-blue-500"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.1 }}
+                  >
+                    복사가 완료되었습니다!
+                  </motion.div>
+                  <motion.div 
+                    className="text-purple-500 dark:text-blue-500 text-sm mt-1"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.2 }}
+                  >
+                    {tokenError}
+                  </motion.div>    
+                </div>
+               )}
               </div>
               <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
                 <Button 
