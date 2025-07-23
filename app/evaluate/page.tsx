@@ -4,10 +4,12 @@ import { useState, useEffect } from 'react';
 import PromptEvaluator from '@/components/ui/prompt-evaluator'
 import { SamplePrompts } from '@/components/ui/sample-prompts'
 import {useStore} from '@/lib/store'
+import { set } from 'zod';
 
 
 
 export default function EvaluatePage() {
+ 
   const [selectedPrompt, setSelectedPrompt] = useState('');
   const {user, refreshUserTokens} = useStore()
   
@@ -23,6 +25,7 @@ export default function EvaluatePage() {
 
   const handleSelectPrompt = (prompt: string) => {
     setSelectedPrompt(prompt);
+    
   };
 
   if(!user){
@@ -73,7 +76,7 @@ export default function EvaluatePage() {
           </div>
           {/* 사이드바 - 모바일에서는 전체 너비, 데스크탑에서는 1/3 */}
           <div className="w-full lg:col-span-1 order-1">
-            <SamplePrompts onSelectPrompt={handleSelectPrompt} />
+            <SamplePrompts onSelectPrompt={handleSelectPrompt}  />
           </div>
         </div>
       </div>

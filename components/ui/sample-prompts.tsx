@@ -53,21 +53,24 @@ const samplePrompts: SamplePrompt[] = [
 
 interface SamplePromptsProps {
   onSelectPrompt: (prompt: string) => void;
+
 }
 
 export function SamplePrompts({ onSelectPrompt }: SamplePromptsProps) {
   const [message, setMessage] = useState<string | null>(null)
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
 
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
     setIsOpenModal(true)
+    
     setMessage("프롬프트가 클립보드에 복사되었습니다.");
     setTimeout(() => {
       setMessage(null);
       setIsOpenModal(false)
-    }, 3000)
+    }, 1000)
   };
 
 
@@ -105,7 +108,9 @@ export function SamplePrompts({ onSelectPrompt }: SamplePromptsProps) {
                   <Button
                     variant="ghost"
                     size="sm"
-                    onClick={() => copyToClipboard(sample.prompt)}
+                    onClick={() => {
+                      copyToClipboard(sample.prompt);
+                    }}
                     className="h-8 w-8 p-0"
                   >
                     <Copy className="w-3 h-3" />
@@ -122,10 +127,16 @@ export function SamplePrompts({ onSelectPrompt }: SamplePromptsProps) {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => onSelectPrompt(sample.prompt)}
+                onClick={() =>{
+                   onSelectPrompt(sample.prompt)
+                   setSelectedIndex(index)
+                   setTimeout(() => {
+                    setSelectedIndex(null)
+                   }, 2000)
+                }}
                 className="w-full"
               >
-                이 프롬프트 사용하기
+                {selectedIndex === index ? "프롬프트가 선택되었습니다." : "이 프롬프트 사용하기"}
               </Button>
             </div>
           ))}
