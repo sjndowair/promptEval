@@ -68,13 +68,12 @@ export default function EvaluatePage() {
           </p>
         </div>
         
-        {/* 🔧 수정: 반응형 그리드 레이아웃 */}
+        
         <div className="grid grid-cols-1 lg:grid-cols-1 gap-6 lg:gap-8">
-          {/* 메인 컨텐츠 - 모바일에서는 전체 너비, 데스크탑에서는 2/3 */}
+          
           <div className="w-full lg:col-span-2 order-1 lg:order-1">
             <PromptEvaluator selectedPrompt={selectedPrompt} />
           </div>
-          {/* 사이드바 - 모바일에서는 전체 너비, 데스크탑에서는 1/3 */}
           <div className="w-full lg:col-span-1 order-1">
             <SamplePrompts onSelectPrompt={handleSelectPrompt}  />
           </div>

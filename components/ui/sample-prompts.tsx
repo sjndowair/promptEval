@@ -11,16 +11,16 @@ import {
 } from "./card";
 import { Button } from "./button";
 import { Copy } from "lucide-react";
-import { TokenErrorModal } from "./token-error-modal";
+import { CopyTooltop } from "./copy-tooltip";
 
-interface SamplePrompt {
+interface ISamplePrompt {
   title: string;
   prompt: string;
   category: string;
   description: string;
 }
 
-const samplePrompts: SamplePrompt[] = [
+const samplePrompts: ISamplePrompt[] = [
   {
     title: "창의적 글쓰기",
     category: "Creative",
@@ -58,19 +58,18 @@ interface SamplePromptsProps {
 
 export function SamplePrompts({ onSelectPrompt }: SamplePromptsProps) {
   const [message, setMessage] = useState<string | null>(null)
-  const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
+  const [isOpenTooltip, setIsOpenTooltip]  = useState<boolean>(false)
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
 
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
-    setIsOpenModal(true)
-    
+    setIsOpenTooltip(true);
     setMessage("프롬프트가 클립보드에 복사되었습니다.");
     setTimeout(() => {
       setMessage(null);
-      setIsOpenModal(false)
-    }, 1000)
+      setIsOpenTooltip(false);
+    }, 1500)
   };
 
 
@@ -88,12 +87,6 @@ export function SamplePrompts({ onSelectPrompt }: SamplePromptsProps) {
         </CardDescription>
       </CardHeader>
       <CardContent>
-      <TokenErrorModal
-      isOpen={isOpenModal}
-      tokenError={message}
-      onClose={() => setIsOpenModal(false)}
-      variant="copy"
-       />
             <div className="grid gap-4 sm:gap-6 grid-cols-1 lg:grid-cols-2">
           {samplePrompts.map((sample, index) => (
             <div key={index} className="border rounded-lg p-4 space-y-3">
@@ -142,6 +135,7 @@ export function SamplePrompts({ onSelectPrompt }: SamplePromptsProps) {
           ))}
         </div>
       </CardContent>
+      <CopyTooltop isOpen={isOpenTooltip} />
     </Card>
   );
 }
