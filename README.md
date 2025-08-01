@@ -80,24 +80,6 @@ GEMINI_API_KEY=your_gemini_api_key
 
 > **참고**: Firebase 설정은 이미 프로젝트에 구성되어 있습니다. Gemini API 키만 있으면 모든 기능을 사용할 수 있습니다.
 
-### 4. API 키 설정 방법
-
-#### Google Gemini AI API 키 (로컬 개발용)
-
-1. [Google AI Studio](https://aistudio.google.com/app/apikey) 방문
-2. "Create API Key" 버튼 클릭
-3. 생성된 API 키를 \`.env.local\` 파일에 추가
-
-> **💡 팁**: 프로덕션 환경에서는 Vercel 환경변수에 설정되어 있어 별도 설정이 필요하지 않습니다.
-
-### 5. 개발 서버 실행
-
-\`\`\`bash
-pnpm dev
-\`\`\`
-
-브라우저에서 [http://localhost:3000](http://localhost:3000)을 열어 애플리케이션을 확인하세요.
-
 ## 🎯 사용 방법
 
 ### 1. 회원가입/로그인
