@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
     const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
     const goalText = goal ? `목표: ${goal}` : '';
-    
+
     const improvementPrompt = `다음 프롬프트를 개선해주세요:
 "${prompt}"
 
@@ -52,7 +52,7 @@ ${goalText}
       // JSON 응답 파싱 시도
       const cleanedText = text.replace(/```json\n?|\n?```/g, '').trim();
       const parsedResult = JSON.parse(cleanedText);
-      
+
       return NextResponse.json(parsedResult);
     } catch (parseError) {
       // JSON 파싱 실패 시 기본 응답 반환
@@ -60,10 +60,9 @@ ${goalText}
       return NextResponse.json({
         improvedPrompt: prompt + ' (개선된 버전)',
         improvements: ['AI 응답을 파싱할 수 없어 기본 응답을 제공합니다.'],
-        reasoning: ['더 구체적이고 명확한 표현으로 개선할 수 있습니다.']
+        reasoning: ['더 구체적이고 명확한 표현으로 개선할 수 있습니다.'],
       });
     }
-
   } catch (error) {
     console.error('개선 제안 오류:', error);
     return NextResponse.json(

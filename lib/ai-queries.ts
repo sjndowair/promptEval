@@ -21,17 +21,21 @@ export const AI_QUERY_KEYS = {
 export function usePromptEvaluation() {
   const queryClient = useQueryClient();
 
-  return useMutation<PromptEvaluationResponse, AIError, PromptEvaluationRequest>({
+  return useMutation<
+    PromptEvaluationResponse,
+    AIError,
+    PromptEvaluationRequest
+  >({
     mutationFn: evaluatePrompt,
-      onSuccess: (data, variables) => {
+    onSuccess: (data, variables) => {
       // 성공 시 캐시에 저장
       queryClient.setQueryData(
         [...AI_QUERY_KEYS.evaluation, variables.prompt],
         data
       );
     },
-    
-    onError: (error) => {
+
+    onError: error => {
       console.error('프롬프트 평가 실패:', error);
     },
   });
@@ -55,7 +59,7 @@ export function usePromptImprovement() {
         data
       );
     },
-    onError: (error) => {
+    onError: error => {
       console.error('프롬프트 개선 실패:', error);
     },
   });
@@ -66,7 +70,11 @@ export function usePromptSafetyCheck() {
   const queryClient = useQueryClient();
 
   return useMutation<
-    { isSafe: boolean; concerns: string[]; severity: 'low' | 'medium' | 'high' },
+    {
+      isSafe: boolean;
+      concerns: string[];
+      severity: 'low' | 'medium' | 'high';
+    },
     AIError,
     string
   >({
@@ -75,7 +83,7 @@ export function usePromptSafetyCheck() {
       // 성공 시 캐시에 저장
       queryClient.setQueryData([...AI_QUERY_KEYS.safety, prompt], data);
     },
-    onError: (error) => {
+    onError: error => {
       console.error('안전성 검사 실패:', error);
     },
   });
@@ -89,7 +97,7 @@ export function useAPIStatus() {
     staleTime: 5 * 60 * 1000, // 5분
     gcTime: 10 * 60 * 1000, // 10분 (v5에서 cacheTime이 gcTime으로 변경됨)
     retry: 3,
-    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+    retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000),
   });
 }
 
@@ -134,16 +142,16 @@ export function getAIErrorMessage(error: AIError): string {
         return 'API 키가 올바르지 않습니다. 설정을 확인해주세요.';
       }
       return error.message || 'AI 서비스에서 오류가 발생했습니다.';
-    
+
     case 'RATE_LIMIT':
       return '요청 한도를 초과했습니다. 잠시 후 다시 시도해주세요.';
-    
+
     case 'NETWORK_ERROR':
       return '네트워크 연결을 확인해주세요.';
-    
+
     case 'INVALID_INPUT':
       return '입력값이 올바르지 않습니다.';
-    
+
     default:
       return error.message || '알 수 없는 오류가 발생했습니다.';
   }
@@ -194,7 +202,7 @@ export function useBatchPromptEvaluation() {
     AIError,
     PromptEvaluationRequest[]
   >({
-    mutationFn: async (requests) => {
+    mutationFn: async requests => {
       // 병렬로 여러 프롬프트 평가
       const results = await Promise.allSettled(
         requests.map(request => evaluatePrompt(request))
@@ -223,7 +231,7 @@ export function useBatchPromptEvaluation() {
 
       return successResults;
     },
-    onError: (error) => {
+    onError: error => {
       console.error('배치 프롬프트 평가 실패:', error);
     },
   });

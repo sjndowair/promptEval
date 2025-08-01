@@ -1,42 +1,42 @@
-import type { Meta, StoryObj } from "@storybook/react"
-import { Skeleton } from "@/components/ui/skeleton"
-import { ThemeProvider } from "@/components/theme-provider"
+import type { Meta, StoryObj } from '@storybook/react';
+import { Skeleton } from '@/components/ui/skeleton';
+import { ThemeProvider } from '@/components/theme-provider';
 
 const meta: Meta<typeof Skeleton> = {
-  title: "Components/Skeleton",
+  title: 'Components/Skeleton',
   component: Skeleton,
-  tags: ["autodocs"],
+  tags: ['autodocs'],
   argTypes: {
     className: {
-      control: "text",
-      description: "추가 CSS 클래스",
+      control: 'text',
+      description: '추가 CSS 클래스',
     },
   },
   decorators: [
-    (Story) => (
+    Story => (
       <ThemeProvider>
-        <div className="p-4 space-y-4">
+        <div className="space-y-4 p-4">
           <Story />
         </div>
       </ThemeProvider>
     ),
   ],
-}
+};
 
-export default meta
-type Story = StoryObj<typeof Skeleton>
+export default meta;
+type Story = StoryObj<typeof Skeleton>;
 
 export const Default: Story = {
   args: {
-    className: "h-4 w-[250px]",
+    className: 'h-4 w-[250px]',
   },
-}
+};
 
 export const Circle: Story = {
   args: {
-    className: "h-12 w-12 rounded-full",
+    className: 'h-12 w-12 rounded-full',
   },
-}
+};
 
 export const Card: Story = {
   render: () => (
@@ -48,7 +48,7 @@ export const Card: Story = {
       </div>
     </div>
   ),
-}
+};
 
 export const Paragraph: Story = {
   render: () => (
@@ -58,4 +58,4 @@ export const Paragraph: Story = {
       <Skeleton className="h-4 w-3/4" />
     </div>
   ),
-}
+};

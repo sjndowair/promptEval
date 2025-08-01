@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
       // JSON 응답 파싱 시도
       const cleanedText = text.replace(/```json\n?|\n?```/g, '').trim();
       const parsedResult = JSON.parse(cleanedText);
-      
+
       return NextResponse.json(parsedResult);
     } catch (parseError) {
       // JSON 파싱 실패 시 기본 응답 반환
@@ -56,10 +56,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({
         isSafe: true,
         concerns: ['AI 응답을 파싱할 수 없어 기본 응답을 제공합니다.'],
-        severity: 'low'
+        severity: 'low',
       });
     }
-
   } catch (error) {
     console.error('안전성 검사 오류:', error);
     return NextResponse.json(

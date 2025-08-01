@@ -1,25 +1,24 @@
-import {Timestamp} from "firebase/firestore";
+import { Timestamp } from 'firebase/firestore';
 
 export interface IUserTokens {
-    userId: string;
-    totalTokens: number;
-    usedTokens: number;
-    lastResetDate: string;
-    maxDailyTokens: number;
-    createdAt: Timestamp;
-    updatedAt: Timestamp;
+  userId: string;
+  totalTokens: number;
+  usedTokens: number;
+  lastResetDate: string;
+  maxDailyTokens: number;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
 }
 
 export interface IDailyUsage {
-    date: string;
-    tokenUsed: number;
-    evaluationsCount: number;
-    createdAt: Timestamp;
+  date: string;
+  tokenUsed: number;
+  evaluationsCount: number;
+  createdAt: Timestamp;
 }
 
 export interface ITokenResponse {
-    success: boolean;
-    data?: IUserTokens;
-    error?: string;
+  success: boolean;
+  data?: IUserTokens;
+  error?: string;
 }
-

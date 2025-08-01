@@ -27,21 +27,21 @@ export const useSignInMutation = () => {
       }
       return result.user;
     },
-    onSuccess: (userData) => {
+    onSuccess: userData => {
       // 쿼리 캐시 업데이트
       queryClient.setQueryData(['auth', 'user'], userData);
-      
+
       // Zustand store 업데이트
       setUser(userData);
-      
+
       // 모달 닫기
       setIsLoginModalOpen(false);
-      
+
       toast.success('로그인 되었습니다!');
     },
     onError: (error: Error) => {
       toast.error(error.message);
-    }
+    },
   });
 };
 
@@ -52,29 +52,29 @@ export const useSignUpMutation = () => {
 
   return useMutation({
     mutationFn: async ({ email, password, name }: ISignUpData) => {
-      console.log(email, password, name)
+      console.log(email, password, name);
       const result = await signUp(email, password, name);
-      console.log(result)
+      console.log(result);
       if (result.error) {
         throw new Error(result.error);
       }
       return result.user;
     },
-    onSuccess: (userData) => {
+    onSuccess: userData => {
       // 쿼리 캐시 업데이트
       queryClient.setQueryData(['auth', 'user'], userData);
-      
+
       // Zustand store 업데이트
       setUser(userData);
-      
+
       // 모달 닫기
       setIsSignupModalOpen(false);
-      
+
       toast.success('회원가입이 완료되었습니다!');
     },
     onError: (error: Error) => {
       toast.error(error.message);
-    }
+    },
   });
 };
 
@@ -94,15 +94,15 @@ export const useSignOutMutation = () => {
       // 쿼리 캐시 클리어
       queryClient.setQueryData(['auth', 'user'], null);
       queryClient.removeQueries({ queryKey: ['user'] }); // 사용자 관련 모든 쿼리 제거
-      
+
       // Zustand store 업데이트
       setUser(null);
-      
+
       toast.success('로그아웃 되었습니다!');
     },
     onError: () => {
       toast.error('로그아웃 중 오류가 발생했습니다.');
-    }
+    },
   });
 };
 

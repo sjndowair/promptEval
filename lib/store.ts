@@ -1,10 +1,9 @@
-"use client"
+'use client';
 
-import {create} from "zustand"
-import {persist} from "zustand/middleware"
-import { IUserTokens } from "@/types/tokens"
-import { getUserTokens, useTokensInFirebase } from "./firebase-tokens"
-
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+import { IUserTokens } from '@/types/tokens';
+import { getUserTokens, useTokensInFirebase } from './firebase-tokens';
 
 interface IUser {
   id: string;
@@ -38,16 +37,16 @@ export const useStore = create<IStoreState>()(
   persist(
     (set, get) => ({
       isEvaluating: false,
-      setIsEvaluating: (value) => set({ isEvaluating: value }),
+      setIsEvaluating: value => set({ isEvaluating: value }),
 
       isLoginModalOpen: false,
-      setIsLoginModalOpen: (value) => set({ isLoginModalOpen: value }),
+      setIsLoginModalOpen: value => set({ isLoginModalOpen: value }),
 
       isSignupModalOpen: false,
-      setIsSignupModalOpen: (value) => set({ isSignupModalOpen: value }),
+      setIsSignupModalOpen: value => set({ isSignupModalOpen: value }),
 
       user: null,
-      setUser: (user) => {
+      setUser: user => {
         set({ user });
         if (user) {
           get().refreshUserTokens();
@@ -59,8 +58,8 @@ export const useStore = create<IStoreState>()(
       userTokens: null,
       isTokensLoading: false,
 
-      setUserTokens: (tokens) => set({ userTokens: tokens }),
-      setIsTokensLoading: (loading) => set({ isTokensLoading: loading }),
+      setUserTokens: tokens => set({ userTokens: tokens }),
+      setIsTokensLoading: loading => set({ isTokensLoading: loading }),
 
       refreshUserTokens: async () => {
         const { user } = get();
@@ -71,7 +70,7 @@ export const useStore = create<IStoreState>()(
           const tokens = await getUserTokens(user.id);
           set({ userTokens: tokens });
         } catch (error) {
-          console.error("토큰 정보 로드 실패:", error);
+          console.error('토큰 정보 로드 실패:', error);
           set({ userTokens: null });
         } finally {
           set({ isTokensLoading: false });
@@ -88,18 +87,14 @@ export const useStore = create<IStoreState>()(
           await get().refreshUserTokens();
           return true;
         } catch (error) {
-          console.error("토큰 사용 실패:", error);
+          console.error('토큰 사용 실패:', error);
           return false;
         }
       },
     }),
     {
-      name: "prompt-evaluator-storage",
-      partialize: (state) => ({ user: state.user }),
-    },
-  ),
-)
-
-
-
-
+      name: 'prompt-evaluator-storage',
+      partialize: state => ({ user: state.user }),
+    }
+  )
+);

@@ -45,7 +45,7 @@ async function callAIAPI(endpoint: string, data: any) {
 // 종합 프롬프트 평가 함수
 export async function evaluatePrompt({
   prompt,
-  evaluationType = 'comprehensive'
+  evaluationType = 'comprehensive',
 }: PromptEvaluationRequest): Promise<PromptEvaluationResponse> {
   try {
     const result = await callAIAPI('evaluate', { prompt, evaluationType });
@@ -53,36 +53,55 @@ export async function evaluatePrompt({
   } catch (error) {
     console.error('프롬프트 평가 오류:', error);
     throw {
-      message: error instanceof Error ? error.message : '알 수 없는 오류가 발생했습니다.',
-      type: 'API_ERROR' as const
+      message:
+        error instanceof Error
+          ? error.message
+          : '알 수 없는 오류가 발생했습니다.',
+      type: 'API_ERROR' as const,
     };
   }
 }
 
 // 품질 평가 함수
-export async function evaluatePromptQuality(prompt: string): Promise<PromptEvaluationResponse> {
+export async function evaluatePromptQuality(
+  prompt: string
+): Promise<PromptEvaluationResponse> {
   try {
-    const result = await callAIAPI('evaluate', { prompt, evaluationType: 'quality' });
+    const result = await callAIAPI('evaluate', {
+      prompt,
+      evaluationType: 'quality',
+    });
     return result;
   } catch (error) {
     console.error('품질 평가 오류:', error);
     throw {
-      message: error instanceof Error ? error.message : '알 수 없는 오류가 발생했습니다.',
-      type: 'API_ERROR' as const
+      message:
+        error instanceof Error
+          ? error.message
+          : '알 수 없는 오류가 발생했습니다.',
+      type: 'API_ERROR' as const,
     };
   }
 }
 
 // 성능 평가 함수
-export async function evaluatePromptPerformance(prompt: string): Promise<PromptEvaluationResponse> {
+export async function evaluatePromptPerformance(
+  prompt: string
+): Promise<PromptEvaluationResponse> {
   try {
-    const result = await callAIAPI('evaluate', { prompt, evaluationType: 'performance' });
+    const result = await callAIAPI('evaluate', {
+      prompt,
+      evaluationType: 'performance',
+    });
     return result;
   } catch (error) {
     console.error('성능 평가 오류:', error);
     throw {
-      message: error instanceof Error ? error.message : '알 수 없는 오류가 발생했습니다.',
-      type: 'API_ERROR' as const
+      message:
+        error instanceof Error
+          ? error.message
+          : '알 수 없는 오류가 발생했습니다.',
+      type: 'API_ERROR' as const,
     };
   }
 }
@@ -90,15 +109,22 @@ export async function evaluatePromptPerformance(prompt: string): Promise<PromptE
 // 안전성 검사 함수
 export async function checkPromptSafety(
   prompt: string
-): Promise<{ isSafe: boolean; concerns: string[]; severity: 'low' | 'medium' | 'high' }> {
+): Promise<{
+  isSafe: boolean;
+  concerns: string[];
+  severity: 'low' | 'medium' | 'high';
+}> {
   try {
     const result = await callAIAPI('safety', { prompt });
     return result;
   } catch (error) {
     console.error('안전성 검사 오류:', error);
     throw {
-      message: error instanceof Error ? error.message : '알 수 없는 오류가 발생했습니다.',
-      type: 'API_ERROR' as const
+      message:
+        error instanceof Error
+          ? error.message
+          : '알 수 없는 오류가 발생했습니다.',
+      type: 'API_ERROR' as const,
     };
   }
 }
@@ -107,15 +133,22 @@ export async function checkPromptSafety(
 export async function improvePrompt(
   prompt: string,
   goal?: string
-): Promise<{ improvedPrompt: string; improvements: string[]; reasoning: string[] }> {
+): Promise<{
+  improvedPrompt: string;
+  improvements: string[];
+  reasoning: string[];
+}> {
   try {
     const result = await callAIAPI('improve', { prompt, goal });
     return result;
   } catch (error) {
     console.error('개선 제안 오류:', error);
     throw {
-      message: error instanceof Error ? error.message : '알 수 없는 오류가 발생했습니다.',
-      type: 'API_ERROR' as const
+      message:
+        error instanceof Error
+          ? error.message
+          : '알 수 없는 오류가 발생했습니다.',
+      type: 'API_ERROR' as const,
     };
   }
 }

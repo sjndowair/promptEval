@@ -1,10 +1,10 @@
-import type { Preview } from "@storybook/react"
-import "../app/globals.css"
-import { ThemeProvider } from "../components/theme-provider"
+import type { Preview } from '@storybook/react';
+import '../app/globals.css';
+import { ThemeProvider } from '../components/theme-provider';
 
 const preview: Preview = {
   parameters: {
-    actions: { argTypesRegex: "^on[A-Z].*" },
+    actions: { argTypesRegex: '^on[A-Z].*' },
     controls: {
       matchers: {
         color: /(background|color)$/i,
@@ -12,26 +12,26 @@ const preview: Preview = {
       },
     },
     backgrounds: {
-      default: "light",
+      default: 'light',
       values: [
         {
-          name: "light",
-          value: "#ffffff",
+          name: 'light',
+          value: '#ffffff',
         },
         {
-          name: "dark",
-          value: "#0f172a",
+          name: 'dark',
+          value: '#0f172a',
         },
       ],
     },
   },
   decorators: [
-    (Story) => (
+    Story => (
       <ThemeProvider defaultTheme="light" storageKey="theme-storybook">
         <Story />
       </ThemeProvider>
     ),
   ],
-}
+};
 
-export default preview
+export default preview;

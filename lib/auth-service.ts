@@ -1,14 +1,13 @@
-import { 
-  createUserWithEmailAndPassword, 
-  signInWithEmailAndPassword, 
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
   signOut as firebaseSignOut,
   updateProfile,
-  User
+  User,
 } from 'firebase/auth';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { auth, db } from './firebase';
-import {analytics} from './analytics';
-
+import { analytics } from './analytics';
 
 interface UserData {
   id: string;
@@ -20,13 +19,13 @@ interface UserData {
 export const getUserData = async (uid: string): Promise<UserData | null> => {
   try {
     const userDoc = await getDoc(doc(db, 'users', uid));
-    
+
     if (userDoc.exists()) {
       const data = userDoc.data();
       return {
         id: uid,
         name: data.name || '',
-        email: data.email || ''
+        email: data.email || '',
       };
     }
     return null;
@@ -40,12 +39,16 @@ export const getUserData = async (uid: string): Promise<UserData | null> => {
 export const signUp = async (email: string, password: string, name: string) => {
   try {
     // Firebase Auth로 사용자 생성
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
     const user = userCredential.user;
 
     // 사용자 프로필 업데이트
     await updateProfile(user, {
-      displayName: name
+      displayName: name,
     });
 
     // Firestore에 사용자 정보 저장
@@ -53,17 +56,17 @@ export const signUp = async (email: string, password: string, name: string) => {
       name: name,
       email: email,
       createdAt: new Date().toISOString(),
-      uid: user.uid
+      uid: user.uid,
     });
 
     // Store에서 사용할 수 있는 형태로 사용자 정보 반환
     const userData = {
       id: user.uid,
       name: name,
-      email: email
+      email: email,
     };
 
-   analytics.user.signUp()
+    analytics.user.signUp();
 
     return { user: userData, error: null };
   } catch (error: any) {
@@ -75,14 +78,17 @@ export const signUp = async (email: string, password: string, name: string) => {
 // 로그인 함수
 export const signIn = async (email: string, password: string) => {
   try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
     const user = userCredential.user;
-    
+
     // Firestore에서 사용자 정보 가져오기
     const userData = await getUserData(user.uid);
 
-    
     if (userData) {
       return { user: userData, error: null };
     } else {
@@ -90,7 +96,7 @@ export const signIn = async (email: string, password: string) => {
       const fallbackUserData = {
         id: user.uid,
         name: user.displayName || '',
-        email: user.email || ''
+        email: user.email || '',
       };
       return { user: fallbackUserData, error: null };
     }

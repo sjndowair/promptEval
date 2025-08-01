@@ -112,7 +112,7 @@ AI 모델과의 호환성과 응답 품질을 예측하여 JSON 형태로 응답
       // JSON 응답 파싱 시도
       const cleanedText = text.replace(/```json\n?|\n?```/g, '').trim();
       const parsedResult = JSON.parse(cleanedText);
-      
+
       return NextResponse.json(parsedResult);
     } catch (parseError) {
       // JSON 파싱 실패 시 기본 응답 반환
@@ -123,14 +123,13 @@ AI 모델과의 호환성과 응답 품질을 예측하여 JSON 형태로 응답
           clarity: 7,
           relevance: 7,
           creativity: 7,
-          accuracy: 7
+          accuracy: 7,
         },
         suggestions: ['AI 응답을 파싱할 수 없어 기본 응답을 제공합니다.'],
         strengths: ['프롬프트가 제공되었습니다.'],
-        improvements: ['더 구체적인 요청을 해보세요.']
+        improvements: ['더 구체적인 요청을 해보세요.'],
       });
     }
-
   } catch (error) {
     console.error('AI 평가 오류:', error);
     return NextResponse.json(

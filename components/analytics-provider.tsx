@@ -1,24 +1,21 @@
-"use client"
+'use client';
 
-import {use, useEffect} from "react"
-import { usePathname } from "next/navigation"
-import { analytics } from "@/lib/analytics"
+import { use, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
+import { analytics } from '@/lib/analytics';
 
 interface IAnayticsProviderProps {
-    children: React.ReactNode
+  children: React.ReactNode;
 }
 
-export const AnalyticsProvider = ({children}: IAnayticsProviderProps) => {
+export const AnalyticsProvider = ({ children }: IAnayticsProviderProps) => {
+  const pathName = usePathname();
 
-   const pathName = usePathname()
-   
-   useEffect(() => {
-    if(pathName){
-        analytics.pageView(pathName)
+  useEffect(() => {
+    if (pathName) {
+      analytics.pageView(pathName);
     }
-   }, [pathName])
+  }, [pathName]);
 
-
-    return (<>{children}</>)
-}
-
+  return <>{children}</>;
+};

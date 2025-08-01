@@ -1,5 +1,11 @@
 import React from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from './card';
 import { Progress } from './progress';
 import { CheckCircle, AlertTriangle, XCircle } from 'lucide-react';
 import type { PromptEvaluationResponse } from '@/lib/ai-service';
@@ -9,25 +15,23 @@ interface PromptEvaluationResultProps {
   isLoading?: boolean;
 }
 
-export function PromptEvaluationResult({ 
-  evaluation, 
-  isLoading = false 
+export function PromptEvaluationResult({
+  evaluation,
+  isLoading = false,
 }: PromptEvaluationResultProps) {
   if (isLoading) {
     return (
       <Card className="w-full">
         <CardHeader>
           <CardTitle>평가 중...</CardTitle>
-          <CardDescription>
-            AI가 프롬프트를 분석하고 있습니다.
-          </CardDescription>
+          <CardDescription>AI가 프롬프트를 분석하고 있습니다.</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             <div className="animate-pulse">
-              <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
-              <div className="h-4 bg-gray-200 rounded w-1/2 mb-2"></div>
-              <div className="h-4 bg-gray-200 rounded w-2/3"></div>
+              <div className="mb-2 h-4 w-3/4 rounded bg-gray-200"></div>
+              <div className="mb-2 h-4 w-1/2 rounded bg-gray-200"></div>
+              <div className="h-4 w-2/3 rounded bg-gray-200"></div>
             </div>
           </div>
         </CardContent>
@@ -43,7 +47,8 @@ export function PromptEvaluationResult({
 
   const getScoreIcon = (score: number) => {
     if (score >= 80) return <CheckCircle className="h-5 w-5 text-green-600" />;
-    if (score >= 60) return <AlertTriangle className="h-5 w-5 text-yellow-600" />;
+    if (score >= 60)
+      return <AlertTriangle className="h-5 w-5 text-yellow-600" />;
     return <XCircle className="h-5 w-5 text-red-600" />;
   };
 
@@ -59,10 +64,12 @@ export function PromptEvaluationResult({
         </CardHeader>
         <CardContent>
           <div className="text-center">
-            <div className={`text-4xl font-bold ${getScoreColor(evaluation.score)}`}>
+            <div
+              className={`text-4xl font-bold ${getScoreColor(evaluation.score)}`}
+            >
               {evaluation.score}점
             </div>
-            <div className="text-sm text-gray-500 mt-1">100점 만점</div>
+            <div className="mt-1 text-sm text-gray-500">100점 만점</div>
           </div>
         </CardContent>
       </Card>
@@ -71,16 +78,16 @@ export function PromptEvaluationResult({
       <Card>
         <CardHeader>
           <CardTitle>세부 분석</CardTitle>
-          <CardDescription>
-            각 평가 항목별 점수입니다.
-          </CardDescription>
+          <CardDescription>각 평가 항목별 점수입니다.</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             <div>
-              <div className="flex justify-between items-center mb-2">
+              <div className="mb-2 flex items-center justify-between">
                 <span className="text-sm font-medium">명확성</span>
-                <span className={`text-sm font-bold ${getScoreColor(evaluation.analysis.clarity)}`}>
+                <span
+                  className={`text-sm font-bold ${getScoreColor(evaluation.analysis.clarity)}`}
+                >
                   {evaluation.analysis.clarity}점
                 </span>
               </div>
@@ -88,9 +95,11 @@ export function PromptEvaluationResult({
             </div>
 
             <div>
-              <div className="flex justify-between items-center mb-2">
+              <div className="mb-2 flex items-center justify-between">
                 <span className="text-sm font-medium">관련성</span>
-                <span className={`text-sm font-bold ${getScoreColor(evaluation.analysis.relevance)}`}>
+                <span
+                  className={`text-sm font-bold ${getScoreColor(evaluation.analysis.relevance)}`}
+                >
                   {evaluation.analysis.relevance}점
                 </span>
               </div>
@@ -98,19 +107,26 @@ export function PromptEvaluationResult({
             </div>
 
             <div>
-              <div className="flex justify-between items-center mb-2">
+              <div className="mb-2 flex items-center justify-between">
                 <span className="text-sm font-medium">창의성</span>
-                <span className={`text-sm font-bold ${getScoreColor(evaluation.analysis.creativity)}`}>
+                <span
+                  className={`text-sm font-bold ${getScoreColor(evaluation.analysis.creativity)}`}
+                >
                   {evaluation.analysis.creativity}점
                 </span>
               </div>
-              <Progress value={evaluation.analysis.creativity} className="h-2" />
+              <Progress
+                value={evaluation.analysis.creativity}
+                className="h-2"
+              />
             </div>
 
             <div>
-              <div className="flex justify-between items-center mb-2">
+              <div className="mb-2 flex items-center justify-between">
                 <span className="text-sm font-medium">정확성</span>
-                <span className={`text-sm font-bold ${getScoreColor(evaluation.analysis.accuracy)}`}>
+                <span
+                  className={`text-sm font-bold ${getScoreColor(evaluation.analysis.accuracy)}`}
+                >
                   {evaluation.analysis.accuracy}점
                 </span>
               </div>
@@ -133,7 +149,7 @@ export function PromptEvaluationResult({
             <ul className="space-y-2">
               {evaluation.suggestions.map((suggestion, index) => (
                 <li key={index} className="flex items-start gap-2">
-                  <div className="w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-xs font-medium mt-0.5">
+                  <div className="mt-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-blue-100 text-xs font-medium text-blue-600">
                     {index + 1}
                   </div>
                   <span className="text-sm text-gray-700">{suggestion}</span>
@@ -152,15 +168,13 @@ export function PromptEvaluationResult({
               <CheckCircle className="h-5 w-5 text-green-600" />
               강점
             </CardTitle>
-            <CardDescription>
-              이 프롬프트의 우수한 점들입니다.
-            </CardDescription>
+            <CardDescription>이 프롬프트의 우수한 점들입니다.</CardDescription>
           </CardHeader>
           <CardContent>
             <ul className="space-y-2">
               {evaluation.strengths.map((strength, index) => (
                 <li key={index} className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-600 mt-1 flex-shrink-0" />
+                  <CheckCircle className="mt-1 h-4 w-4 flex-shrink-0 text-green-600" />
                   <span className="text-sm text-gray-700">{strength}</span>
                 </li>
               ))}
@@ -185,7 +199,7 @@ export function PromptEvaluationResult({
             <ul className="space-y-2">
               {evaluation.improvements.map((improvement, index) => (
                 <li key={index} className="flex items-start gap-2">
-                  <div className="w-6 h-6 rounded-full bg-yellow-100 text-yellow-600 flex items-center justify-center text-xs font-medium mt-0.5">
+                  <div className="mt-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-yellow-100 text-xs font-medium text-yellow-600">
                     {index + 1}
                   </div>
                   <span className="text-sm text-gray-700">{improvement}</span>
